@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gmail</title>
+  <link rel="stylesheet" href="../styles/gmail.css">
+</head>
+
+<body>
+  <main class="gmail-app">
+    <aside class="sidebar">
+      <button class="compose" data-folder="compose">Compose</button>
+      <button class="folder active" data-folder="inbox">Inbox <b>18</b></button>
+      <button class="folder" data-folder="starred">Starred</button>
+      <button class="folder" data-folder="sent">Sent</button>
+      <button class="folder" data-folder="drafts">Drafts</button>
+      <button class="folder" data-folder="auditions">Auditions</button>
+      <button class="folder" data-folder="trash">Trash</button>
+    </aside>
+    <section class="mail-list" id="mailList"></section>
+    <article class="reader" id="reader"></article>
+  </main>
+
+  <script src="../scripts/gmail.js"></script>
+</body>
+
+</html>

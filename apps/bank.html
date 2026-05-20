@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bank</title>
+  <link rel="stylesheet" href="../styles/bank.css">
+</head>
+
+<body>
+  <main class="bank-app">
+    <section class="login" id="login">
+      <div class="login-card">
+        <div class="bank-mark">MYB</div>
+        <h1>Secure Sign In</h1>
+        <p>Complete the quick number check to continue.</p>
+        <label for="guessInput">Guess a number from 1 to 10</label>
+        <form id="guessForm">
+          <input id="guessInput" type="number" min="1" max="10" autocomplete="off">
+          <button type="submit">Verify</button>
+        </form>
+        <div class="hint" id="hint">Enter one number.</div>
+      </div>
+    </section>
+
+    <section class="dashboard hidden" id="dashboard">
+      <aside class="side">
+        <div class="bank-mark">MYB</div>
+        <button class="active">Dashboard</button>
+        <button>Accounts</button>
+        <button>Payments</button>
+        <button>Cards</button>
+        <button>Settings</button>
+      </aside>
+      <section class="main">
+        <header class="heading">
+          <p>Personal Savings Account</p>
+          <h1>Good morning</h1>
+          <span>Last login: Today, 01:58 AM</span>
+        </header>
+
+        <section class="balance">
+          <p>Available Balance</p>
+          <strong>RM0.10</strong>
+          <span>Account ending 8841</span>
+        </section>
+
+        <section class="alerts">
+          <div><strong>Low balance alert</strong><span>Your available balance is below RM20.00.</span></div>
+          <div><strong>Payment overdue</strong><span>Phone bill autopay failed due to insufficient funds.</span></div>
+          <div><strong>Transfer declined</strong><span>RM180.00 room rental transfer could not be completed.</span></div>
+        </section>
+
+        <section class="transactions">
+          <h2>Recent Transactions</h2>
+          <div><span>Convenience Store</span><b>-RM4.50</b></div>
+          <div><span>Instant Noodles</span><b>-RM12.00</b></div>
+          <div><span>LRT</span><b>-RM2.40</b></div>
+          <div><span>Audition Studio Room</span><b>-RM38.00</b></div>
+          <div><span>Freelance Payment</span><b>+RM65.00</b></div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script src="../scripts/bank.js"></script>
+</body>
+
+</html>

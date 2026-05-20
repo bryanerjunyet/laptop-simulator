@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes</title>
+  <link rel="stylesheet" href="../styles/notes.css">
+</head>
+
+<body>
+  <main class="notes-app">
+    <aside class="note-list">
+      <button class="note-item active" data-note="today">
+        <strong>Today</strong>
+        <span>再坚持一下。</span>
+      </button>
+      <button class="note-item" data-note="lyrics">
+        <strong>Untitled Lyrics</strong>
+        <span>灯暗下来以后...</span>
+      </button>
+      <button class="note-item" data-note="budget">
+        <strong>Budget</strong>
+        <span>Rent / food / transport</span>
+      </button>
+      <button class="note-item" data-note="free">
+        <strong>Your Note</strong>
+        <span>Editable note</span>
+      </button>
+    </aside>
+    <section class="editor">
+      <input id="titleInput" class="title" type="text">
+      <textarea id="bodyInput" spellcheck="false"></textarea>
+      <footer id="saveState">Saved locally</footer>
+    </section>
+  </main>
+
+  <script src="../scripts/notes.js"></script>
+</body>
+
+</html>

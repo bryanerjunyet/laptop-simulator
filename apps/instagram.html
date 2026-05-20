@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram</title>
+  <link rel="stylesheet" href="../styles/instagram.css">
+</head>
+
+<body>
+  <main class="instagram-app">
+    <aside class="sidebar">
+      <div class="wordmark">Instagram</div>
+      <button class="nav active" data-view="profile">主页</button>
+      <button class="nav" data-view="search">搜索</button>
+      <button class="nav" data-view="explore">探索</button>
+      <button class="nav" data-view="reels">Reels</button>
+      <button class="nav" data-view="messages">消息</button>
+      <button class="nav" data-view="saved">收藏</button>
+    </aside>
+
+    <section class="content" id="content"></section>
+  </main>
+
+  <div class="modal hidden" id="postModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="modal-close" id="closeModal" aria-label="Close">×</button>
+      <img id="modalImage" alt="">
+      <section class="modal-comments">
+        <header>
+          <strong id="modalCaptionUser"></strong>
+          <p id="modalCaption"></p>
+        </header>
+        <div class="comment-list" id="commentList"></div>
+        <form class="comment-form" id="commentForm">
+          <input id="commentInput" type="text" placeholder="添加评论...">
+          <button type="submit">发布</button>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <script src="../scripts/instagram.js"></script>
+</body>
+
+</html>

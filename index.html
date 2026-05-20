@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laptop Simulation</title>
+  <link rel="stylesheet" href="styles/desktop.css">
+</head>
+
+<body>
+  <main class="desktop" aria-label="Desktop">
+    <header class="menu-bar">
+      <div class="menu-left">
+        <span class="apple-dot"></span>
+        <strong>MacBook</strong>
+      </div>
+      <div class="menu-right">
+        <span>Wi-Fi</span>
+        <span>82%</span>
+        <time id="clock">--:--</time>
+      </div>
+    </header>
+
+    <section class="desktop-icons" aria-label="Applications">
+      <button class="desktop-icon" data-app="instagram">
+        <img src="assets/icons/instagram.svg" alt="">
+        <span>Instagram</span>
+      </button>
+      <button class="desktop-icon" data-app="gmail">
+        <img src="assets/icons/gmail.png" alt="">
+        <span>Gmail</span>
+      </button>
+      <button class="desktop-icon" data-app="whatsapp">
+        <img src="assets/icons/whatsapp.svg" alt="">
+        <span>WhatsApp</span>
+      </button>
+      <button class="desktop-icon" data-app="bank">
+        <img src="assets/icons/bank.svg" alt="">
+        <span>Bank</span>
+      </button>
+      <button class="desktop-icon" data-app="notes">
+        <img src="assets/icons/notes.svg" alt="">
+        <span>Notes</span>
+      </button>
+    </section>
+
+    <section class="window is-hidden" id="appWindow" aria-live="polite">
+      <header class="window-bar" id="windowBar">
+        <div class="traffic">
+          <button class="traffic-btn close" id="closeWindow" aria-label="Close"></button>
+          <button class="traffic-btn minimize" id="minimizeWindow" aria-label="Minimize"></button>
+          <button class="traffic-btn zoom" id="maximizeWindow" aria-label="Maximize"></button>
+        </div>
+        <div class="window-title" id="windowTitle">Application</div>
+      </header>
+      <iframe class="app-frame" id="appFrame" title="Application window"></iframe>
+    </section>
+
+    <nav class="dock" aria-label="Dock">
+      <button data-app="instagram" title="Instagram"><img src="assets/icons/instagram.svg" alt=""></button>
+      <button data-app="gmail" title="Gmail"><img src="assets/icons/gmail.png" alt=""></button>
+      <button data-app="whatsapp" title="WhatsApp"><img src="assets/icons/whatsapp.svg" alt=""></button>
+      <button data-app="bank" title="Bank"><img src="assets/icons/bank.svg" alt=""></button>
+      <button data-app="notes" title="Notes"><img src="assets/icons/notes.svg" alt=""></button>
+    </nav>
+  </main>
+
+  <script src="scripts/desktop.js"></script>
+</body>
+
+</html>
