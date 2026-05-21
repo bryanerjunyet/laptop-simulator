@@ -1,5 +1,3 @@
-const STORAGE_KEY = "mock_whatsapp_chats_v3";
-
 const baseChats = [
   {
     id: "mom",
@@ -128,7 +126,7 @@ const baseChats = [
   }
 ];
 
-let chats = loadChats();
+let chats = structuredClone(baseChats);
 let activeChatId = chats[0].id;
 
 const contacts = document.getElementById("contacts");
@@ -153,21 +151,6 @@ input.addEventListener("input", () => {
   input.style.height = "auto";
   input.style.height = `${Math.min(input.scrollHeight, 110)}px`;
 });
-
-function loadChats() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (!saved) return structuredClone(baseChats);
-
-  try {
-    return JSON.parse(saved);
-  } catch {
-    return structuredClone(baseChats);
-  }
-}
-
-function saveChats() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
-}
 
 function renderContacts() {
   contacts.innerHTML = chats.map((chat) => {
@@ -246,7 +229,6 @@ function sendMessage() {
   chat.messages.push(["sent", text, time]);
   input.value = "";
   input.style.height = "auto";
-  saveChats();
   renderContacts();
   renderChat(activeChatId, true);
 }
