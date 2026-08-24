@@ -9,11 +9,42 @@
 </head>
 
 <body>
-  <main class="desktop" aria-label="Desktop">
+  <main class="persona-login" id="loginScreen" aria-label="Choose laptop">
+    <header class="login-status" aria-label="System status">
+      <span class="apple-dot"></span>
+      <div>
+        <span>Wi-Fi</span>
+        <span>82%</span>
+        <time id="loginClock">--:--</time>
+      </div>
+    </header>
+
+    <section class="login-panel account-login">
+      <div class="laptop-options" aria-label="Persona laptops">
+        <button class="laptop-card account-card" data-laptop="guang">
+          <span class="laptop-avatar">G</span>
+          <span class="laptop-name">Guang</span>
+        </button>
+
+        <button class="laptop-card account-card is-locked" type="button" disabled>
+          <span class="laptop-avatar">?</span>
+          <span class="laptop-name">Persona 2</span>
+        </button>
+
+        <button class="laptop-card account-card is-locked" type="button" disabled>
+          <span class="laptop-avatar">?</span>
+          <span class="laptop-name">Persona 3</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <main class="desktop is-hidden" id="desktopScreen" aria-label="Desktop">
     <header class="menu-bar">
       <div class="menu-left">
         <span class="apple-dot"></span>
-        <strong>MacBook</strong>
+        <strong id="activeLaptopName">Guang's Laptop</strong>
+        <button class="switch-laptop" id="switchLaptop" type="button">Log Out</button>
       </div>
       <div class="menu-right">
         <span>Wi-Fi</span>
