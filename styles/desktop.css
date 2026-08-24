@@ -31,6 +31,191 @@ button {
   font: inherit;
 }
 
+.persona-login {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  overflow: auto;
+  background:
+    linear-gradient(rgba(7, 9, 14, 0.44), rgba(7, 9, 14, 0.72)),
+    url("../assets/images/background.jpg") center / cover no-repeat;
+}
+
+.login-status {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 13px;
+}
+
+.login-status div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.persona-login.is-hidden,
+.desktop.is-hidden {
+  display: none;
+}
+
+.login-panel {
+  width: min(920px, 100%);
+}
+
+.account-login {
+  display: flex;
+  justify-content: center;
+}
+
+.login-heading {
+  margin-bottom: 24px;
+}
+
+.login-kicker {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.login-heading h1 {
+  margin: 0;
+  font-size: 44px;
+  line-height: 1.05;
+  font-weight: 760;
+}
+
+.laptop-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.account-login .laptop-options {
+  width: min(700px, 100%);
+  grid-template-columns: repeat(3, minmax(140px, 1fr));
+  gap: 28px;
+}
+
+.laptop-card {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(20, 24, 31, 0.62);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    background 0.18s ease;
+}
+
+.account-card {
+  min-height: 196px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 14px;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  text-align: center;
+}
+
+.laptop-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.42);
+  background: rgba(34, 39, 49, 0.72);
+}
+
+.account-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.laptop-card:focus-visible,
+.switch-laptop:focus-visible {
+  outline: 2px solid #f6f7fb;
+  outline-offset: 3px;
+}
+
+.laptop-card.is-locked {
+  opacity: 0.52;
+  cursor: not-allowed;
+}
+
+.laptop-card.is-locked:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(20, 24, 31, 0.62);
+}
+
+.account-card.is-locked:hover {
+  border-color: transparent;
+  background: transparent;
+}
+
+.laptop-avatar {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  margin-bottom: auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.account-card .laptop-avatar {
+  width: 104px;
+  height: 104px;
+  margin: 0;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.34), transparent 28%),
+    linear-gradient(145deg, rgba(104, 136, 168, 0.86), rgba(35, 42, 55, 0.94));
+  box-shadow: 0 24px 52px rgba(0, 0, 0, 0.42);
+  font-size: 42px;
+}
+
+.account-card.is-locked .laptop-avatar {
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.22), transparent 28%),
+    linear-gradient(145deg, rgba(88, 91, 98, 0.74), rgba(38, 40, 46, 0.88));
+}
+
+.laptop-name {
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 740;
+}
+
+.laptop-detail {
+  min-height: 42px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
 .desktop {
   position: relative;
   width: 100vw;
@@ -61,6 +246,21 @@ button {
   display: flex;
   align-items: center;
   gap: 14px;
+}
+
+.switch-laptop {
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.switch-laptop:hover {
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .apple-dot {
@@ -248,6 +448,38 @@ button {
 @media (max-width: 760px) {
   body {
     overflow: hidden;
+  }
+
+  .persona-login {
+    place-items: start;
+    padding: 22px 16px;
+  }
+
+  .login-heading h1 {
+    font-size: 34px;
+  }
+
+  .laptop-options {
+    grid-template-columns: 1fr;
+  }
+
+  .laptop-card {
+    min-height: 168px;
+  }
+
+  .account-login .laptop-options {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .account-card {
+    min-height: 150px;
+  }
+
+  .account-card .laptop-avatar {
+    width: 86px;
+    height: 86px;
+    font-size: 34px;
   }
 
   .desktop-icons {

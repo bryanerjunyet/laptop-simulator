@@ -6,11 +6,19 @@ const apps = {
   notes: { title: "Notes", url: "apps/notes.html" }
 };
 
+const laptops = {
+  guang: { name: "Guang's Laptop" }
+};
+
+const loginScreen = document.getElementById("loginScreen");
+const desktopScreen = document.getElementById("desktopScreen");
 const appWindow = document.getElementById("appWindow");
 const appFrame = document.getElementById("appFrame");
 const windowTitle = document.getElementById("windowTitle");
 const activeAppName = document.getElementById("activeAppName");
+const activeLaptopName = document.getElementById("activeLaptopName");
 const clock = document.getElementById("clock");
+const loginClock = document.getElementById("loginClock");
 const windowBar = document.getElementById("windowBar");
 
 let dragState = null;
@@ -19,6 +27,12 @@ let restoreRect = null;
 document.querySelectorAll("[data-app]").forEach((button) => {
   button.addEventListener("click", () => openApp(button.dataset.app));
 });
+
+document.querySelectorAll("[data-laptop]").forEach((button) => {
+  button.addEventListener("click", () => openLaptop(button.dataset.laptop));
+});
+
+document.getElementById("switchLaptop").addEventListener("click", showLogin);
 
 document.getElementById("closeWindow").addEventListener("click", () => {
   appWindow.classList.add("is-hidden");
@@ -94,12 +108,32 @@ function openApp(appName) {
   }
 }
 
+function openLaptop(laptopId) {
+  const laptop = laptops[laptopId];
+  if (!laptop) return;
+
+  loginScreen.classList.add("is-hidden");
+  desktopScreen.classList.remove("is-hidden");
+  activeLaptopName.textContent = laptop.name;
+}
+
+function showLogin() {
+  desktopScreen.classList.add("is-hidden");
+  loginScreen.classList.remove("is-hidden");
+  appWindow.classList.add("is-hidden");
+  appWindow.classList.remove("is-minimized", "is-maximized");
+  appFrame.removeAttribute("src");
+  setActiveAppName("Finder");
+}
+
 function updateClock() {
   const now = new Date();
-  clock.textContent = now.toLocaleTimeString([], {
+  const currentTime = now.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit"
   });
+  clock.textContent = currentTime;
+  loginClock.textContent = currentTime;
 }
 
 function clamp(value, min, max) {
