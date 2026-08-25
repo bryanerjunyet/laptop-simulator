@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chrome</title>
+  <link rel="stylesheet" href="../styles/mock-chrome.css">
+  <link rel="stylesheet" href="../styles/ahe-chrome.css">
+</head>
+
+<body>
+  <main class="chrome-app">
+    <header class="chrome-top">
+      <section class="tab-strip">
+        <nav class="tabs" id="tabs" aria-label="Browser tabs">
+          <button class="tab active" data-tab="news" type="button">城市时报</button>
+          <button class="tab" data-tab="weibo" type="button">微博</button>
+        </nav>
+        <button class="new-tab" id="newTabButton" type="button" aria-label="New tab">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 5v14"></path>
+            <path d="M5 12h14"></path>
+          </svg>
+        </button>
+      </section>
+
+      <section class="toolbar">
+        <div class="nav-controls">
+          <button type="button" aria-label="Back">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+          </button>
+          <button type="button" aria-label="Forward">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+          </button>
+          <button id="reloadButton" type="button" aria-label="Reload">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.8 8.8a7 7 0 1 0 1 5.6"></path>
+              <path d="M18.8 8.8h-4.5"></path>
+              <path d="M18.8 8.8V4.3"></path>
+            </svg>
+          </button>
+        </div>
+        <form class="search-bar" id="addressForm">
+          <svg class="search-leading" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="6"></circle>
+            <path d="m16 16 4 4"></path>
+          </svg>
+          <input id="address" type="search" value="https://citytimes.my/arts/2026/05/14/ahe-plagiarism" autocomplete="off">
+        </form>
+        <button class="toolbar-icon" type="button" aria-label="Extensions">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 4h8v5h4v7h-5v4H8v-4H4V9h4z"></path>
+          </svg>
+        </button>
+        <button class="profile-button" id="profileButton" type="button" aria-label="Chrome profile">禾</button>
+        <div class="profile-menu is-hidden" id="profileMenu">
+          <div class="profile-card">
+            <span class="profile-avatar">禾</span>
+            <strong>阿禾</strong>
+            <small>ahe@oldstudio.mail</small>
+          </div>
+          <button type="button">Manage your Google Account</button>
+          <button type="button">Passwords and autofill</button>
+          <button type="button">Chrome settings</button>
+          <button type="button">Sync is off</button>
+        </div>
+      </section>
+    </header>
+
+    <section class="page chrome-page" id="googlePage">
+      <img class="google-mark" src="../assets/icons/google-brand.svg" alt="Google">
+      <form class="home-search" id="homeSearchForm">
+        <svg class="search-leading" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="6"></circle>
+          <path d="m16 16 4 4"></path>
+        </svg>
+        <input id="homeSearchInput" type="search" placeholder="Search Google or type a URL" autocomplete="off">
+      </form>
+      <div class="shortcut-row" aria-label="Shortcuts">
+        <button id="googleShortcut" type="button">
+          <span><img src="../assets/icons/google.svg" alt=""></span>
+          <strong>Google</strong>
+        </button>
+        <button id="mailShortcut" type="button">
+          <span><img src="../assets/icons/gmail.png" alt=""></span>
+          <strong>Mail</strong>
+        </button>
+        <button id="addShortcut" type="button">
+          <span class="plus-shortcut">+</span>
+          <strong>Add</strong>
+        </button>
+      </div>
+      <p id="searchMessage"></p>
+    </section>
+
+    <section class="page active" id="newsPage">
+      <article class="news-article">
+        <header class="news-site-header">
+          <div>
+            <strong>城市时报</strong>
+            <span>CITY TIMES</span>
+          </div>
+          <nav aria-label="News sections">
+            <a href="#">本地</a>
+            <a href="#">文娱</a>
+            <a href="#">艺文</a>
+            <a href="#">评论</a>
+          </nav>
+        </header>
+
+        <div class="article-shell">
+          <section class="article-main">
+            <div class="article-kicker">文娱新闻 · A07</div>
+            <h1>年轻画家阿禾涉嫌抄袭知名画家柳文清</h1>
+            <p class="article-subtitle">画廊回应：将全面核查，坚决抵制抄袭行为</p>
+            <div class="article-meta">
+              <span>记者 李明洁</span>
+              <span>2026年5月14日 星期二 10:40</span>
+              <span>吉隆坡报道</span>
+            </div>
+
+            <figure class="article-hero">
+              <img src="../assets/images/news/qiongqi-venue-report.png" alt="阿禾在展览现场查看争议作品">
+              <figcaption>图：阿禾在某个展览现场，望向墙上的争议作品。（资料图）</figcaption>
+            </figure>
+
+            <p class="lead">本报讯，知名画家柳文清近日在社交平台发文，指控年轻画家阿禾在其新作《雨后的第七盏灯》中大量抄袭自己的作品。相关帖文发布后迅速引发讨论，画廊、收藏者及艺术社群纷纷关注此事。</p>
+            <p>柳文清在帖文中表示，该作品在构图、色彩运用以及局部细节上与其多幅早期作品高度相似，并附上局部对比图作为说明。她称，原创作品需要被尊重，任何借由“学习”“致敬”包装的高度复制，都不应被行业轻轻放过。</p>
+            <p>负责展出相关作品的五度画廊随后发布声明，表示已注意到网络上的争议，并将启动内部核查程序。声明中提到，画廊已要求相关人员提交创作草稿、时间记录及作品登记资料，以确认作品来源与创作流程。</p>
+            <p>据本报了解，阿禾此前并非大众熟知的商业画家，其作品多以个人投稿、匿名展览及小型空间展出为主。争议发生后，其社交账号评论区涌入大量质疑留言，不少网友要求他公开完整创作记录，也有人认为在调查结果出炉前不宜过早定罪。</p>
+
+            <aside class="fact-card">
+              <strong>事件时间线</strong>
+              <ul>
+                <li>5月12日，柳文清团队整理作品对比资料。</li>
+                <li>5月14日，柳文清公开发文质疑阿禾作品来源。</li>
+                <li>同日，五度画廊表示将配合核查并暂缓相关作品推广。</li>
+              </ul>
+            </aside>
+
+            <p>业内人士指出，艺术创作中的风格相近与实质抄袭之间，需要通过草稿、创作时间、修改痕迹与作者说明进行综合判断。若无法提供完整的创作链条，争议作品后续展售、署名与版权归属都可能受到影响。</p>
+            <p>截至发稿前，阿禾尚未对此事作出正式公开回应。画廊方面表示，调查期间不会对外公布未经核实的细节，但会在完成核查后向公众说明处理结果。</p>
+          </section>
+
+          <aside class="article-side">
+            <section>
+              <h2>相关文章</h2>
+              <button type="button">画廊将复核作品登记流程</button>
+              <button type="button">年轻创作者如何保存创作证据</button>
+              <button type="button">艺术市场署名争议再引讨论</button>
+            </section>
+            <section>
+              <h2>热读</h2>
+              <ol>
+                <li>城市艺术周公布年度展览名单</li>
+                <li>独立画廊租金压力升温</li>
+                <li>线上拍卖平台调整审核规则</li>
+              </ol>
+            </section>
+          </aside>
+        </div>
+        <div class="news-toast is-hidden" id="newsToast" role="status" aria-live="polite">用户尚未订阅此报纸</div>
+      </article>
+    </section>
+
+    <section class="page" id="weiboPage">
+      <div class="weibo-app">
+        <header class="weibo-topbar">
+          <div class="weibo-top-inner">
+            <img src="../assets/icons/weibo.svg" alt="微博">
+            <form class="weibo-search" id="weiboSearchForm">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="6"></circle>
+                <path d="m16 16 4 4"></path>
+              </svg>
+              <input id="weiboSearchInput" type="search" value="#年轻画家阿禾涉嫌抄袭#" aria-label="Search Weibo">
+            </form>
+            <nav aria-label="Weibo navigation">
+              <button type="button">首页</button>
+              <button type="button">视频</button>
+              <button type="button">发现</button>
+              <button type="button">消息</button>
+            </nav>
+          </div>
+        </header>
+
+        <div class="weibo-layout">
+          <aside class="weibo-left-nav">
+            <button class="active" type="button" data-weibo-section="feed">热门</button>
+            <button type="button" data-weibo-section="locked">关注</button>
+            <button type="button" data-weibo-section="locked">视频</button>
+            <button type="button" data-weibo-section="locked">同城</button>
+            <button type="button" data-weibo-section="locked">艺术</button>
+            <button type="button" data-weibo-section="saved">收藏</button>
+          </aside>
+
+          <main class="weibo-feed">
+            <section class="weibo-hero-card">
+              <div>
+                <span>热搜事件</span>
+                <h1>#年轻画家阿禾涉嫌抄袭#</h1>
+              </div>
+              <img src="../assets/images/news/qiongqi-venue-report.png" alt="">
+            </section>
+
+            <article class="weibo-post major-post">
+              <header>
+                <span class="weibo-avatar orange">艺</span>
+                <div>
+                  <strong>艺术观察号</strong>
+                  <small>2026-05-14 12:06 来自 微博网页版</small>
+                </div>
+              </header>
+              <p>城市时报报道：年轻画家阿禾涉嫌抄袭知名画家柳文清。画廊回应称已启动内部核查，并要求相关人员提交草稿、时间记录与作品登记资料。#年轻画家阿禾涉嫌抄袭#</p>
+              <figure class="weibo-post-image">
+                <img src="../assets/images/news/qiongqi-venue-report.png" alt="新闻报道配图">
+              </figure>
+              <section class="hot-comments" aria-label="热门评论">
+                <div class="hot-comments-title">
+                  <strong>热门评论</strong>
+                  <button type="button">按热度</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/adventurer/svg?seed=soft-candy" alt="">
+                  <div class="comment-body">
+                    <strong>小白软糖</strong>
+                    <p>建议永久封禁。原创画家熬出来的东西，不应该被这样拿去改个名字就展出。</p>
+                    <span>5-13 22:43 来自 Android</span>
+                  </div>
+                  <button class="comment-like" type="button">9,800</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/thumbs/svg?seed=night-boat" alt="">
+                  <div class="comment-body">
+                    <strong>夜航船</strong>
+                    <p>脸皮真厚，柳文清那几张旧作的构图那么明显，也敢说只是风格接近？</p>
+                    <span>5-13 22:45 来自 iPhone</span>
+                  </div>
+                  <button class="comment-like" type="button">6,721</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/bottts-neutral/svg?seed=orange-cat" alt="">
+                  <div class="comment-body">
+                    <strong>一只橘猫</strong>
+                    <p>碰瓷知名画家想出名也不用这样吧。画廊先把登记和收稿记录公开。</p>
+                    <span>5-13 22:47 来自 Android</span>
+                  </div>
+                  <button class="comment-like" type="button">5,420</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/lorelei/svg?seed=coriander-free" alt="">
+                  <div class="comment-body">
+                    <strong>不吃香菜</strong>
+                    <p>支持柳老师维权！抄袭可耻，尤其是拿去参展还让别人背锅。</p>
+                    <span>5-13 22:49 来自 iPhone</span>
+                  </div>
+                  <button class="comment-like" type="button">4,112</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/fun-emoji/svg?seed=wheat" alt="">
+                  <div class="comment-body">
+                    <strong>画画的麦麦</strong>
+                    <p>支持原创！坚决抵制抄袭！小画家也要守底线，不是没名气就可以乱来。</p>
+                    <span>5-13 22:51 来自 iPhone</span>
+                  </div>
+                  <button class="comment-like" type="button">3,980</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/avataaars/svg?seed=old-frame" alt="">
+                  <div class="comment-body">
+                    <strong>旧画框</strong>
+                    <p>还是等完整草稿链吧，现在图像对比很像，但最后要看谁能拿出原始文件和时间记录。</p>
+                    <span>5-13 22:58 来自 微博网页版</span>
+                  </div>
+                  <button class="comment-like" type="button">2,766</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/miniavs/svg?seed=south-rain" alt="">
+                  <div class="comment-body">
+                    <strong>南方雨</strong>
+                    <p>如果阿禾有原稿就赶紧拿出来，沉默只会让事情越来越难解释。</p>
+                    <span>5-13 23:03 来自 Android</span>
+                  </div>
+                  <button class="comment-like" type="button">2,391</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/notionists/svg?seed=blank-canvas" alt="">
+                  <div class="comment-body">
+                    <strong>空白画布</strong>
+                    <p>别急着网暴。画廊还在核查，万一中间有投稿、署名或资料管理的问题呢？</p>
+                    <span>5-13 23:08 来自 iPhone</span>
+                  </div>
+                  <button class="comment-like" type="button">1,908</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/personas/svg?seed=charcoal-pencil" alt="">
+                  <div class="comment-body">
+                    <strong>木炭铅笔</strong>
+                    <p>学过画的人说一句，色块、主体位置和边角处理都太像了，不像单纯借鉴。</p>
+                    <span>5-13 23:12 来自 Android</span>
+                  </div>
+                  <button class="comment-like" type="button">1,632</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/glass/svg?seed=blue-label" alt="">
+                  <div class="comment-body">
+                    <strong>蓝色展签</strong>
+                    <p>五度画廊也该说明审核流程，作品怎么进展、谁登记、谁确认，都不是小事。</p>
+                    <span>5-13 23:18 来自 微博网页版</span>
+                  </div>
+                  <button class="comment-like" type="button">1,220</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/pixel-art/svg?seed=anonymous-melon" alt="">
+                  <div class="comment-body">
+                    <strong>匿名吃瓜</strong>
+                    <p>热搜挂一天了，双方最好都拿证据说话，不然只会越吵越乱。</p>
+                    <span>5-13 23:26 来自 Android</span>
+                  </div>
+                  <button class="comment-like" type="button">986</button>
+                </div>
+                <div class="comment-row">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/initials/svg?seed=silent-alt" alt="">
+                  <div class="comment-body">
+                    <strong>小号不说话</strong>
+                    <p>先截图保存，等后续调查。如果真有反转，今天这些话也会变成证据。</p>
+                    <span>5-13 23:31 来自 iPhone</span>
+                  </div>
+                  <button class="comment-like" type="button">742</button>
+                </div>
+              </section>
+              <footer>
+                <button type="button">转发 6,421</button>
+                <button type="button">评论 18,906</button>
+                <button type="button">赞 42,118</button>
+              </footer>
+            </article>
+
+            <article class="weibo-post">
+              <header>
+                <span class="weibo-avatar red">柳</span>
+                <div>
+                  <strong>柳文清工作室</strong>
+                  <small>2026-05-14 13:20 来自 专业版微博</small>
+                </div>
+              </header>
+              <p>原创不该被“风格参考”四个字模糊。我们已向画廊提交作品时间线与公开展览记录，希望平台与相关机构尽快给出明确调查结论。</p>
+              <div class="weibo-inline-note">已编辑 · 争议作品：《雨后的第七盏灯》</div>
+              <footer>
+                <button type="button">转发 2,880</button>
+                <button type="button">评论 9,317</button>
+                <button type="button">赞 31,662</button>
+              </footer>
+            </article>
+
+            <article class="weibo-post">
+              <header>
+                <span class="weibo-avatar blue">档</span>
+                <div>
+                  <strong>展览资料存档</strong>
+                  <small>2026-05-14 15:47 来自 iPhone客户端</small>
+                </div>
+              </header>
+              <p>目前公开材料只看到画廊提供的对比图，还没有看到完整草稿链。判断抄袭至少需要创作日期、原始文件、修改记录和登记人信息，建议先等完整核查。</p>
+              <footer>
+                <button type="button">转发 734</button>
+                <button type="button">评论 3,102</button>
+                <button type="button">赞 8,940</button>
+              </footer>
+            </article>
+
+            <section class="weibo-saved-view" id="weiboSavedView" aria-label="阿禾收藏">
+              <header class="saved-view-header">
+                <span class="weibo-avatar muted">禾</span>
+                <div>
+                  <strong>阿禾的收藏</strong>
+                  <h1>#年轻画家阿禾涉嫌抄袭#</h1>
+                  <p>保存于 2026-08-06 01:42</p>
+                </div>
+              </header>
+              <section class="saved-comment-list">
+                <h2>已保存的评论</h2>
+                <div class="comment-row saved-comment">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/thumbs/svg?seed=gallery-check" alt="">
+                  <div class="comment-body">
+                    <strong>画展打卡bot</strong>
+                    <p>抄袭还敢碰瓷？真以为没人看过柳文清的画吗。那张对比图已经够明显了。</p>
+                    <span>5-13 22:39 来自 Android</span>
+                  </div>
+                  <button class="comment-like" type="button">3,420</button>
+                </div>
+                <div class="comment-row saved-comment">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/lorelei/svg?seed=awake-now" alt="">
+                  <div class="comment-body">
+                    <strong>清醒一点</strong>
+                    <p>小画手想红想疯了，碰瓷知名画师也太难看。画廊如果不处理，以后谁还敢投稿？</p>
+                    <span>5-13 22:44 来自 iPhone</span>
+                  </div>
+                  <button class="comment-like" type="button">2,917</button>
+                </div>
+                <div class="comment-row saved-comment">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/notionists/svg?seed=empty-frame" alt="">
+                  <div class="comment-body">
+                    <strong>空白画框</strong>
+                    <p>如果有原始草稿，至少应该让调查看到完整时间线。现在最关键的是谁能拿出原始文件。</p>
+                    <span>5-13 22:52 来自 微博网页版</span>
+                  </div>
+                  <button class="comment-like" type="button">2,310</button>
+                </div>
+                <div class="comment-row saved-comment">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/personas/svg?seed=proof-chain" alt="">
+                  <div class="comment-body">
+                    <strong>证据链别断</strong>
+                    <p>别只看截图。投稿邮件、文件创建时间、修改记录、展签登记，这些才是能说清楚的东西。</p>
+                    <span>5-13 23:06 来自 Android</span>
+                  </div>
+                  <button class="comment-like" type="button">1,876</button>
+                </div>
+                <div class="comment-row saved-comment">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/miniavs/svg?seed=old-exhibition" alt="">
+                  <div class="comment-body">
+                    <strong>旧展览册</strong>
+                    <p>柳文清那组画以前在小册子里见过，阿禾这张如果是后画的，确实解释不通。</p>
+                    <span>5-13 23:14 来自 iPhone</span>
+                  </div>
+                  <button class="comment-like" type="button">1,205</button>
+                </div>
+                <div class="comment-row saved-comment">
+                  <img class="comment-avatar" src="https://api.dicebear.com/10.x/avataaars/svg?seed=wait-report" alt="">
+                  <div class="comment-body">
+                    <strong>等报告出来</strong>
+                    <p>现在骂得太满也没意义。画廊既然说核查，就把核查范围和结果公开，不要只发一句声明。</p>
+                    <span>5-13 23:27 来自 微博网页版</span>
+                  </div>
+                  <button class="comment-like" type="button">984</button>
+                </div>
+              </section>
+            </section>
+          </main>
+
+          <aside class="weibo-right-rail">
+            <form class="weibo-login-card" id="weiboLoginForm">
+              <strong>账号登录</strong>
+              <input type="text" placeholder="邮箱/手机号/微博号" aria-label="账号">
+              <input type="password" placeholder="请输入密码" aria-label="密码">
+              <button type="submit">登录</button>
+              <p class="weibo-login-error" id="weiboLoginError" aria-live="polite"></p>
+              <div class="weibo-login-links">
+                <button type="button" data-login-error="暂不允许找回密码">忘记密码</button>
+                <span>·</span>
+                <button type="button" data-login-error="暂不开放注册">立即注册</button>
+              </div>
+            </form>
+
+            <section class="weibo-trends">
+              <h2>微博热搜</h2>
+              <ol>
+                <li><span>1</span>#年轻画家阿禾涉嫌抄袭# <b>热</b></li>
+                <li><span>2</span>柳文清工作室回应</li>
+                <li><span>3</span>画廊称将复核作品登记</li>
+                <li><span>4</span>原创草稿如何证明归属</li>
+                <li><span>5</span>城市时报文娱新闻</li>
+              </ol>
+            </section>
+
+            <section class="weibo-topic-card">
+              <h2>话题详情</h2>
+              <p>阅读 2.8亿 · 讨论 41.6万</p>
+              <button type="button">进入讨论</button>
+            </section>
+          </aside>
+        </div>
+        <div class="weibo-toast is-hidden" id="weiboToast" role="status" aria-live="polite">尚未登录账号</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../scripts/ahe-chrome.js"></script>
+</body>
+
+</html>

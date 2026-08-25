@@ -1,10 +1,14 @@
 :root {
-  --menu: rgba(15, 17, 20, 0.52);
+  --menu: rgba(24, 25, 29, 0.38);
   --glass: rgba(255, 255, 255, 0.15);
   --line: rgba(255, 255, 255, 0.18);
   --text: #f6f7fb;
   --muted: rgba(246, 247, 251, 0.68);
-  --shadow: 0 28px 90px rgba(0, 0, 0, 0.55);
+  --shadow: 0 34px 120px rgba(0, 0, 0, 0.48);
+  --login-wallpaper: url("../assets/images/wallpapers/login/login-sonoma.jpeg");
+  --desktop-wallpaper: url("../assets/images/wallpapers/zhuiguang/zhuiguang-wallpaper.jpg");
+  --desktop-overlay: linear-gradient(rgba(5, 8, 13, 0.08), rgba(5, 8, 13, 0.24));
+  --screen-scale: 0.8;
 }
 
 * {
@@ -33,33 +37,138 @@ button {
 
 .persona-login {
   position: relative;
-  width: 100vw;
-  min-height: 100vh;
+  width: calc(100vw / var(--screen-scale));
+  min-height: calc(100vh / var(--screen-scale));
   display: grid;
-  place-items: center;
+  grid-template-rows: 1fr auto 1fr;
+  justify-items: center;
   padding: 32px;
   overflow: auto;
+  transform: scale(var(--screen-scale));
+  transform-origin: top left;
   background:
-    linear-gradient(rgba(7, 9, 14, 0.44), rgba(7, 9, 14, 0.72)),
-    url("../assets/images/background.jpg") center / cover no-repeat;
+    linear-gradient(rgba(8, 9, 13, 0.08), rgba(8, 9, 13, 0.34)),
+    var(--login-wallpaper) center / cover no-repeat;
+}
+
+.persona-login.is-password-mode {
+  grid-template-rows: auto auto;
+  align-content: center;
+  justify-items: center;
+  gap: 34px;
+  background:
+    linear-gradient(rgba(8, 9, 13, 0.12), rgba(8, 9, 13, 0.42)),
+    var(--login-wallpaper) center / cover no-repeat;
 }
 
 .login-status {
   position: absolute;
   inset: 0 0 auto;
-  height: 32px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-  color: rgba(255, 255, 255, 0.74);
+  padding: 0 18px;
+  color: rgba(255, 255, 255, 0.86);
   font-size: 13px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.42);
 }
 
 .login-status div {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 13px;
+}
+
+.wifi-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wifi-icon {
+  width: 26px;
+  height: 18px;
+  display: inline-block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: translateY(-1px);
+}
+
+.wifi-icon circle {
+  fill: currentColor;
+  stroke: none;
+}
+
+.battery-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.battery-icon {
+  position: relative;
+  width: 25px;
+  height: 12px;
+  display: inline-block;
+  border: 1.7px solid currentColor;
+  border-radius: 3px;
+}
+
+.battery-icon::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: -4px;
+  width: 2px;
+  height: 4px;
+  border-radius: 0 2px 2px 0;
+  background: currentColor;
+}
+
+.battery-icon span {
+  position: absolute;
+  inset: 2px 5px 2px 2px;
+  border-radius: 1.5px;
+  background: currentColor;
+}
+
+.lock-clock {
+  grid-row: 1;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5vh;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.96);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, "Segoe UI", Arial, sans-serif;
+  text-align: center;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.36);
+}
+
+.persona-login.is-password-mode .lock-clock {
+  grid-row: auto;
+  align-self: center;
+  margin: 0;
+}
+
+.lock-clock time {
+  font-size: clamp(70px, 10vw, 138px);
+  line-height: 0.88;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.lock-clock span {
+  margin-top: 0;
+  font-size: 19px;
+  font-weight: 650;
+  letter-spacing: 0;
 }
 
 .persona-login.is-hidden,
@@ -68,12 +177,22 @@ button {
 }
 
 .login-panel {
+  grid-row: 2;
   width: min(920px, 100%);
+}
+
+.persona-login.is-password-mode .login-panel {
+  grid-row: auto;
 }
 
 .account-login {
   display: flex;
   justify-content: center;
+  padding-top: 0;
+}
+
+.account-login.is-password-mode .laptop-options {
+  display: none;
 }
 
 .login-heading {
@@ -101,9 +220,9 @@ button {
 }
 
 .account-login .laptop-options {
-  width: min(700px, 100%);
-  grid-template-columns: repeat(3, minmax(140px, 1fr));
-  gap: 28px;
+  width: min(720px, 100%);
+  grid-template-columns: repeat(3, minmax(150px, 1fr));
+  gap: 26px;
 }
 
 .laptop-card {
@@ -128,10 +247,10 @@ button {
 }
 
 .account-card {
-  min-height: 196px;
+  min-height: 194px;
   align-items: center;
   justify-content: center;
-  padding: 20px 14px;
+  padding: 24px 16px;
   border-color: transparent;
   background: transparent;
   box-shadow: none;
@@ -146,12 +265,19 @@ button {
 }
 
 .account-card:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 24px 60px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(24px);
 }
 
 .laptop-card:focus-visible,
-.switch-laptop:focus-visible {
+.switch-laptop:focus-visible,
+.password-row input:focus-visible,
+.password-row button:focus-visible,
+.fullscreen-button:focus-visible {
   outline: 2px solid #f6f7fb;
   outline-offset: 3px;
 }
@@ -186,27 +312,81 @@ button {
 }
 
 .account-card .laptop-avatar {
-  width: 104px;
-  height: 104px;
+  position: relative;
+  --avatar-head-size: 34px;
+  --avatar-head-top: 29px;
+  --avatar-body-width: 72px;
+  --avatar-body-height: 34px;
+  --avatar-body-bottom: 25px;
+  width: 124px;
+  height: 124px;
   margin: 0;
-  border: 2px solid rgba(255, 255, 255, 0.22);
+  border: 0;
   background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.34), transparent 28%),
-    linear-gradient(145deg, rgba(104, 136, 168, 0.86), rgba(35, 42, 55, 0.94));
-  box-shadow: 0 24px 52px rgba(0, 0, 0, 0.42);
-  font-size: 42px;
+    radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.35), transparent 24%),
+    linear-gradient(145deg, #5f7fa2, #1d2734);
+  box-shadow:
+    inset 0 0 0 4px rgba(255, 255, 255, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 24px 52px rgba(0, 0, 0, 0.42);
+  color: transparent;
+  font-size: 0;
+  overflow: hidden;
+  isolation: isolate;
 }
 
-.account-card.is-locked .laptop-avatar {
+.account-card .laptop-avatar::before,
+.account-card .laptop-avatar::after,
+.password-panel .laptop-avatar::before,
+.password-panel .laptop-avatar::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.account-card .laptop-avatar::before,
+.password-panel .laptop-avatar::before {
+  top: var(--avatar-head-top);
+  width: var(--avatar-head-size);
+  height: var(--avatar-head-size);
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.account-card .laptop-avatar::after,
+.password-panel .laptop-avatar::after {
+  bottom: var(--avatar-body-bottom);
+  width: var(--avatar-body-width);
+  height: var(--avatar-body-height);
+  border-radius: 999px 999px 38px 38px;
+  transform: translateX(-50%);
+}
+
+.account-card[data-laptop="guang"] .laptop-avatar {
   background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.22), transparent 28%),
-    linear-gradient(145deg, rgba(88, 91, 98, 0.74), rgba(38, 40, 46, 0.88));
+    radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.38), transparent 24%),
+    linear-gradient(145deg, #f2b35f, #8f3e52 58%, #28324b);
+}
+
+.account-card[data-laptop="shanhong"] .laptop-avatar {
+  background:
+    radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.34), transparent 24%),
+    linear-gradient(145deg, #c78b46, #4b3629 54%, #18201d);
+}
+
+.account-card[data-laptop="ahe"] .laptop-avatar {
+  background:
+    radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.34), transparent 24%),
+    linear-gradient(145deg, #7f9aaa, #30404a 54%, #17181f);
 }
 
 .laptop-name {
-  font-size: 20px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 21px;
   line-height: 1.2;
   font-weight: 740;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.62);
 }
 
 .laptop-detail {
@@ -216,29 +396,312 @@ button {
   line-height: 1.45;
 }
 
+.password-panel {
+  position: relative;
+  width: min(390px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 34px 24px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(26px);
+}
+
+.password-panel.is-hidden {
+  display: none;
+}
+
+.password-panel .laptop-avatar {
+  position: relative;
+  --avatar-head-size: 31px;
+  --avatar-head-top: 27px;
+  --avatar-body-width: 66px;
+  --avatar-body-height: 31px;
+  --avatar-body-bottom: 23px;
+  width: 112px;
+  height: 112px;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.34), transparent 28%),
+    linear-gradient(145deg, rgba(104, 136, 168, 0.86), rgba(35, 42, 55, 0.94));
+  box-shadow:
+    inset 0 0 0 4px rgba(255, 255, 255, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 24px 52px rgba(0, 0, 0, 0.42);
+  color: transparent;
+  font-size: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.password-panel[data-laptop="guang"] .laptop-avatar {
+  background:
+    radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.38), transparent 24%),
+    linear-gradient(145deg, #f2b35f, #8f3e52 58%, #28324b);
+}
+
+.password-panel[data-laptop="shanhong"] .laptop-avatar {
+  background:
+    radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.34), transparent 24%),
+    linear-gradient(145deg, #c78b46, #4b3629 54%, #18201d);
+}
+
+.password-panel[data-laptop="ahe"] .laptop-avatar {
+  background:
+    radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.34), transparent 24%),
+    linear-gradient(145deg, #7f9aaa, #30404a 54%, #17181f);
+}
+
+.password-panel strong {
+  font-size: 20px;
+}
+
+.password-row {
+  width: min(300px, 100%);
+  position: relative;
+  margin: 0 auto;
+}
+
+.password-row input,
+.fullscreen-button {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  backdrop-filter: blur(18px);
+}
+
+.password-row input {
+  width: 100%;
+  height: 42px;
+  padding: 0 52px 0 16px;
+  border-radius: 21px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.96);
+  caret-color: #fff;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.96);
+  text-align: left;
+}
+
+.password-row input::placeholder,
+.security-row input::placeholder {
+  color: rgba(255, 255, 255, 0.68);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.68);
+  opacity: 1;
+}
+
+.password-row input::-ms-reveal,
+.password-row input::-ms-clear,
+.security-row input::-ms-reveal,
+.security-row input::-ms-clear {
+  filter: invert(1) brightness(1.8);
+}
+
+.password-row button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.23);
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.password-row button:hover,
+.fullscreen-button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.password-error {
+  min-height: 18px;
+  margin: 0;
+  color: #ffd0d0;
+  font-size: 13px;
+}
+
+.fullscreen-button {
+  position: fixed;
+  z-index: 100;
+  right: 22px;
+  bottom: 22px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 16px 42px rgba(0, 0, 0, 0.28);
+}
+
+.fullscreen-button.is-hidden {
+  display: none;
+}
+
+.fullscreen-button svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.security-lock {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(5, 7, 11, 0.62);
+  backdrop-filter: blur(28px) saturate(1.15);
+}
+
+.security-lock.is-hidden {
+  display: none;
+}
+
+.security-card {
+  width: min(360px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 34px 110px rgba(0, 0, 0, 0.46);
+}
+
+.security-icon {
+  width: 70px;
+  height: 70px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.security-icon svg {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.security-card strong {
+  font-size: 20px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.42);
+}
+
+.security-row {
+  position: relative;
+  width: min(292px, 100%);
+}
+
+.security-row input {
+  width: 100%;
+  height: 42px;
+  padding: 0 52px 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 21px;
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.96);
+  font: inherit;
+  caret-color: #fff;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(18px);
+}
+
+.security-row button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.23);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.security-row button:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.security-row input:focus-visible,
+.security-row button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.security-card p {
+  min-height: 18px;
+  margin: 0;
+  color: #ffd0d0;
+  font-size: 13px;
+}
+
 .desktop {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: calc(100vw / var(--screen-scale));
+  height: calc(100vh / var(--screen-scale));
   overflow: hidden;
+  transform: scale(var(--screen-scale));
+  transform-origin: top left;
   background:
-    linear-gradient(rgba(5, 8, 13, 0.18), rgba(5, 8, 13, 0.34)),
-    url("../assets/images/background.jpg") center / cover no-repeat;
+    var(--desktop-overlay),
+    var(--desktop-wallpaper) center / cover no-repeat;
+}
+
+.desktop.laptop-shanhong {
+  --desktop-overlay: linear-gradient(rgba(5, 7, 9, 0.08), rgba(5, 7, 9, 0.28));
+}
+
+.desktop.laptop-ahe {
+  --desktop-overlay: linear-gradient(rgba(5, 7, 10, 0.08), rgba(5, 7, 10, 0.3));
 }
 
 .menu-bar {
   position: absolute;
   z-index: 20;
   inset: 0 0 auto;
-  height: 32px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 14px;
   background: var(--menu);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px) saturate(1.25);
   font-size: 13px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
 .menu-left,
@@ -249,14 +712,15 @@ button {
 }
 
 .switch-laptop {
-  height: 24px;
-  padding: 0 10px;
+  height: 22px;
+  padding: 0 9px;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.09);
-  color: rgba(255, 255, 255, 0.78);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.86);
   font-size: 12px;
   cursor: pointer;
+  backdrop-filter: blur(18px);
 }
 
 .switch-laptop:hover {
@@ -285,6 +749,18 @@ button {
   gap: 22px 18px;
 }
 
+.desktop-icons.layout-spread {
+  left: 28px;
+  right: auto;
+  grid-template-columns: repeat(2, 108px);
+}
+
+.desktop-icons.layout-studio {
+  top: 70px;
+  left: 34px;
+  grid-template-columns: repeat(2, 108px);
+}
+
 .desktop-icon {
   display: flex;
   width: 108px;
@@ -295,17 +771,18 @@ button {
   gap: 9px;
   padding: 8px 7px;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 10px;
   background: transparent;
   cursor: pointer;
 }
 
 .desktop-icon:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(18px);
 }
 
-.desktop-icon img {
+.desktop-icon .app-icon {
   width: 58px;
   height: 58px;
   display: block;
@@ -313,7 +790,7 @@ button {
   filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.34));
 }
 
-.desktop-icon span {
+.desktop-icon > span:not(.app-icon) {
   width: 94px;
   display: block;
   font-size: 12px;
@@ -323,20 +800,42 @@ button {
   text-shadow: 0 1px 7px rgba(0, 0, 0, 0.88);
 }
 
+.desktop-note {
+  position: absolute;
+  z-index: 1;
+  right: 34px;
+  bottom: 112px;
+  width: 220px;
+  padding: 16px;
+  transform: rotate(-2deg);
+  border-radius: 3px;
+  background: #f5df85;
+  color: #2e2516;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.28);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.desktop-note.is-hidden {
+  display: none;
+}
+
 .dock {
   position: absolute;
   z-index: 18;
   left: 50%;
-  bottom: 18px;
+  bottom: 16px;
   transform: translateX(-50%);
   display: flex;
-  gap: 10px;
-  padding: 9px 12px;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: rgba(36, 38, 44, 0.42);
-  backdrop-filter: blur(22px);
-  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.38);
+  gap: 14px;
+  padding: 8px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 22px;
+  background: rgba(245, 247, 255, 0.18);
+  backdrop-filter: blur(28px) saturate(1.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 18px 55px rgba(0, 0, 0, 0.34);
 }
 
 .dock button {
@@ -353,11 +852,114 @@ button {
   transform: translateY(-6px) scale(1.08);
 }
 
-.dock img {
+.dock .app-icon {
   width: 100%;
   height: 100%;
   display: block;
+  object-fit: contain;
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.36));
+}
+
+.desktop-icon[data-app="finder"] .app-icon,
+.desktop-icon[data-app="gallery"] .app-icon,
+.desktop-icon[data-app="notes"] .app-icon {
+  transform: scale(1.08);
+}
+
+.dock [data-app="finder"] .app-icon,
+.dock [data-app="gallery"] .app-icon,
+.dock [data-app="notes"] .app-icon {
+  transform: scale(1.08);
+}
+
+.desktop-icon[data-app="gallery"] .app-icon,
+.dock [data-app="gallery"] .app-icon {
+  transform: scale(1.16);
+}
+
+.desktop-icon[data-app="notes"] .app-icon,
+.dock [data-app="notes"] .app-icon {
+  transform: scale(1);
+}
+
+.calendar-app-icon {
+  overflow: hidden;
+  border-radius: 13px;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f2f4 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.08),
+    inset 0 -10px 18px rgba(0, 0, 0, 0.06),
+    0 12px 20px rgba(0, 0, 0, 0.28);
+  color: #111318;
+  text-align: center;
+}
+
+.calendar-app-icon span {
+  height: 18px;
+  display: block;
+  padding-top: 3px;
+  background: linear-gradient(180deg, #fb4b43 0%, #d51e1e 100%);
+  color: #fff;
+  font-size: 8px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.calendar-app-icon strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.dock .calendar-app-icon {
+  border-radius: 11px;
+}
+
+.dock .calendar-app-icon span {
+  height: 15px;
+  padding-top: 2px;
+  font-size: 7px;
+}
+
+.dock .calendar-app-icon strong {
+  margin-top: 3px;
+  font-size: 25px;
+}
+
+.dock-reveal-zone {
+  position: absolute;
+  z-index: 55;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 88px;
+  display: none;
+}
+
+.desktop.has-fullscreen-window .dock-reveal-zone {
+  display: block;
+}
+
+.desktop.has-fullscreen-window .dock {
+  z-index: 60;
+  bottom: 0;
+  transform: translate(-50%, calc(100% - 6px));
+  opacity: 0;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    bottom 0.2s ease;
+}
+
+.desktop.has-fullscreen-window.is-dock-revealed .dock,
+.desktop.has-fullscreen-window .dock:hover,
+.desktop.has-fullscreen-window .dock:focus-within {
+  bottom: 16px;
+  transform: translateX(-50%);
+  opacity: 1;
 }
 
 .window {
@@ -370,11 +972,13 @@ button {
   min-width: 390px;
   min-height: 310px;
   overflow: hidden;
-  resize: both;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 13px;
+  resize: none;
+  touch-action: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
   background: #12151b;
   box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
 }
 
 .window.is-hidden {
@@ -382,25 +986,39 @@ button {
 }
 
 .window.is-maximized {
-  left: 8px !important;
-  top: 40px !important;
-  width: calc(100vw - 16px) !important;
-  height: calc(100vh - 72px) !important;
+  z-index: 40;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   resize: none;
+  border: 0;
+  border-radius: 0;
 }
 
 .window.is-minimized {
   display: none;
 }
 
+.floating-window {
+  z-index: 32;
+  left: 300px;
+  top: 104px;
+  width: min(1080px, calc(100vw - 340px));
+  height: min(710px, calc(100vh - 158px));
+}
+
 .window-bar {
-  height: 42px;
+  position: relative;
+  z-index: 5;
+  height: 40px;
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 0 13px;
-  background: rgba(25, 28, 34, 0.96);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(31, 34, 40, 0.86);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(24px) saturate(1.25);
   cursor: move;
 }
 
@@ -438,11 +1056,89 @@ button {
 }
 
 .app-frame {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  height: calc(100% - 42px);
+  height: calc(100% - 40px);
   display: block;
   border: 0;
   background: #fff;
+}
+
+.resize-handle {
+  position: absolute;
+  z-index: 3;
+  background: transparent;
+}
+
+.resize-handle-n,
+.resize-handle-s {
+  left: 12px;
+  right: 12px;
+  height: 8px;
+}
+
+.resize-handle-n {
+  top: 0;
+  cursor: ns-resize;
+}
+
+.resize-handle-s {
+  bottom: 0;
+  cursor: ns-resize;
+}
+
+.resize-handle-w,
+.resize-handle-e {
+  top: 12px;
+  bottom: 12px;
+  width: 10px;
+}
+
+.resize-handle-w {
+  left: 0;
+  cursor: ew-resize;
+}
+
+.resize-handle-e {
+  right: 0;
+  cursor: ew-resize;
+}
+
+.resize-handle-nw,
+.resize-handle-ne,
+.resize-handle-sw,
+.resize-handle-se {
+  width: 12px;
+  height: 12px;
+}
+
+.resize-handle-nw {
+  top: 0;
+  left: 0;
+  cursor: nwse-resize;
+}
+
+.resize-handle-ne {
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
+}
+
+.resize-handle-sw {
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
+}
+
+.resize-handle-se {
+  right: 0;
+  bottom: 0;
+  cursor: nwse-resize;
+}
+
+body.is-resizing-window .app-frame {
+  pointer-events: none;
 }
 
 @media (max-width: 760px) {
@@ -451,12 +1147,39 @@ button {
   }
 
   .persona-login {
-    place-items: start;
+    grid-template-rows: auto auto 1fr;
+    align-content: start;
+    justify-items: stretch;
     padding: 22px 16px;
   }
 
-  .login-heading h1 {
-    font-size: 34px;
+  .persona-login.is-password-mode {
+    grid-template-rows: auto auto;
+    align-content: center;
+    justify-items: center;
+    gap: 24px;
+  }
+
+  .lock-clock {
+    align-self: start;
+    margin: 54px 0 24px;
+  }
+
+  .persona-login.is-password-mode .lock-clock {
+    align-self: center;
+    margin: 0;
+  }
+
+  .lock-clock time {
+    font-size: 64px;
+  }
+
+  .lock-clock span {
+    font-size: 15px;
+  }
+
+  .account-login {
+    justify-content: center;
   }
 
   .laptop-options {
@@ -477,15 +1200,37 @@ button {
   }
 
   .account-card .laptop-avatar {
-    width: 86px;
-    height: 86px;
-    font-size: 34px;
+    --avatar-head-size: 25px;
+    --avatar-head-top: 20px;
+    --avatar-body-width: 52px;
+    --avatar-body-height: 25px;
+    --avatar-body-bottom: 18px;
+    width: 88px;
+    height: 88px;
+  }
+
+  .password-panel {
+    width: min(340px, 100%);
+    margin: 0 auto;
   }
 
   .desktop-icons {
     top: 52px;
     left: 12px;
     grid-template-columns: 96px;
+  }
+
+  .desktop-icons.layout-spread,
+  .desktop-icons.layout-studio {
+    left: 12px;
+    right: auto;
+  }
+
+  .desktop-note {
+    right: 12px;
+    bottom: 94px;
+    width: 180px;
+    font-size: 12px;
   }
 
   .desktop-icon {

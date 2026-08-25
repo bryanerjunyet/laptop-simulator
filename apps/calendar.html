@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar</title>
+  <link rel="stylesheet" href="../styles/calendar.css">
+</head>
+
+<body>
+  <main class="calendar-app">
+    <aside class="calendar-side">
+      <button class="today-button" type="button">Today</button>
+      <section>
+        <strong>Calendars</strong>
+        <label><span class="dot home"></span><input type="checkbox" checked> Home</label>
+        <label><span class="dot work"></span><input type="checkbox" checked> Work</label>
+      </section>
+    </aside>
+
+    <section class="calendar-main">
+      <header class="calendar-toolbar">
+        <div>
+          <button id="previousMonth" type="button" aria-label="Previous month">‹</button>
+          <button id="nextMonth" type="button" aria-label="Next month">›</button>
+        </div>
+        <h1 id="monthTitle">Month</h1>
+        <div class="view-tabs" aria-label="Calendar view">
+          <button type="button" data-calendar-view="day">Day</button>
+          <button type="button" data-calendar-view="week">Week</button>
+          <button class="active" type="button" data-calendar-view="month">Month</button>
+          <button type="button" data-calendar-view="year">Year</button>
+        </div>
+      </header>
+
+      <div class="weekday-row" id="weekdayRow" aria-hidden="true">
+        <span>Sun</span>
+        <span>Mon</span>
+        <span>Tue</span>
+        <span>Wed</span>
+        <span>Thu</span>
+        <span>Fri</span>
+        <span>Sat</span>
+      </div>
+      <section class="calendar-content month-grid" id="calendarContent" aria-label="Calendar"></section>
+    </section>
+  </main>
+
+  <script src="../scripts/calendar.js"></script>
+</body>
+
+</html>

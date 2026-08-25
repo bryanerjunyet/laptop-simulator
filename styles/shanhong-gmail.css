@@ -1,0 +1,23 @@
+.shanhong-mail {
+  grid-template-columns: 210px minmax(430px, 46%) 1fr;
+}
+
+.shanhong-mail.is-sidebar-collapsed {
+  grid-template-columns: 72px minmax(430px, 46%) 1fr;
+}
+
+.shanhong-mail .folder:hover,
+.shanhong-mail .folder.active {
+  background: #f7e7d9;
+  color: #8d4518;
+}
+
+.reader blockquote {
+  max-width: 720px;
+  margin: 16px 0;
+  padding: 12px 16px;
+  border-left: 4px solid #c98a4b;
+  background: #fff8f1;
+  color: #3d3026;
+  line-height: 1.75;
+}

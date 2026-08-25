@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes</title>
+  <link rel="stylesheet" href="../styles/mock-notes.css">
+</head>
+
+<body>
+  <main class="notes-app">
+    <aside class="notes-sidebar">
+      <header>
+        <strong>Notes</strong>
+        <button id="newNoteButton" type="button">+</button>
+      </header>
+      <section class="notes-list" id="notesList"></section>
+    </aside>
+
+    <section class="note-editor">
+      <div class="empty-state" id="emptyState">
+        <h1>No Notes</h1>
+        <p>Create a note to start writing.</p>
+      </div>
+      <form class="editor-form is-hidden" id="editorForm">
+        <input id="noteTitle" class="note-title" type="text" placeholder="Title">
+        <textarea id="noteBody" placeholder="Start typing..." spellcheck="false"></textarea>
+        <footer>
+          <span id="saveState">Saved locally</span>
+          <button id="deleteNoteButton" type="button">Delete</button>
+        </footer>
+      </form>
+    </section>
+  </main>
+
+  <script src="../scripts/mock-notes.js"></script>
+</body>
+
+</html>

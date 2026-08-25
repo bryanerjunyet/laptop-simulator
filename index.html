@@ -13,29 +13,55 @@
     <header class="login-status" aria-label="System status">
       <span class="apple-dot"></span>
       <div>
-        <span>Wi-Fi</span>
-        <span>82%</span>
+        <span class="wifi-status">
+          <svg class="wifi-icon" viewBox="0 0 32 24" aria-label="Wi-Fi" role="img">
+            <path d="M3.5 8.8Q16 -1 28.5 8.8"></path>
+            <path d="M8.1 12.6Q16 5.8 23.9 12.6"></path>
+            <path d="M12.7 16.3Q16 12.9 19.3 16.3"></path>
+            <circle cx="16" cy="20" r="1.35"></circle>
+          </svg>
+          <span>eduroam</span>
+        </span>
+        <span class="battery-status" aria-label="Battery 82%">
+          <span class="battery-icon"><span></span></span>
+          <span>82%</span>
+        </span>
         <time id="loginClock">--:--</time>
       </div>
     </header>
+
+    <section class="lock-clock" aria-label="Current time">
+      <span id="loginDate">Monday, January 1</span>
+      <time id="loginBigTime">--:--</time>
+    </section>
 
     <section class="login-panel account-login">
       <div class="laptop-options" aria-label="Persona laptops">
         <button class="laptop-card account-card" data-laptop="guang">
           <span class="laptop-avatar">G</span>
-          <span class="laptop-name">Guang</span>
+          <span class="laptop-name">追光</span>
         </button>
 
-        <button class="laptop-card account-card is-locked" type="button" disabled>
-          <span class="laptop-avatar">?</span>
-          <span class="laptop-name">Persona 2</span>
+        <button class="laptop-card account-card" data-laptop="shanhong">
+          <span class="laptop-avatar">单</span>
+          <span class="laptop-name">单鸿</span>
         </button>
 
-        <button class="laptop-card account-card is-locked" type="button" disabled>
-          <span class="laptop-avatar">?</span>
-          <span class="laptop-name">Persona 3</span>
+        <button class="laptop-card account-card" data-laptop="ahe">
+          <span class="laptop-avatar">禾</span>
+          <span class="laptop-name">阿禾</span>
         </button>
       </div>
+
+      <form class="password-panel is-hidden" id="passwordPanel" autocomplete="off">
+        <span class="laptop-avatar" id="passwordAvatar">?</span>
+        <strong id="passwordName">Account</strong>
+        <div class="password-row">
+          <input id="laptopPassword" type="password" inputmode="numeric" aria-label="Password" placeholder="输入密码">
+          <button type="submit">→</button>
+        </div>
+        <p class="password-error" id="passwordError" aria-live="polite"></p>
+      </form>
     </section>
   </main>
 
@@ -43,38 +69,29 @@
     <header class="menu-bar">
       <div class="menu-left">
         <span class="apple-dot"></span>
-        <strong id="activeLaptopName">Guang's Laptop</strong>
+        <strong id="activeLaptopName">追光的电脑</strong>
         <button class="switch-laptop" id="switchLaptop" type="button">Log Out</button>
       </div>
       <div class="menu-right">
-        <span>Wi-Fi</span>
-        <span>82%</span>
+        <span class="wifi-status">
+          <svg class="wifi-icon" viewBox="0 0 32 24" aria-label="Wi-Fi" role="img">
+            <path d="M3.5 8.8Q16 -1 28.5 8.8"></path>
+            <path d="M8.1 12.6Q16 5.8 23.9 12.6"></path>
+            <path d="M12.7 16.3Q16 12.9 19.3 16.3"></path>
+            <circle cx="16" cy="20" r="1.35"></circle>
+          </svg>
+          <span>eduroam</span>
+        </span>
+        <span class="battery-status" aria-label="Battery 82%">
+          <span class="battery-icon"><span></span></span>
+          <span>82%</span>
+        </span>
         <time id="clock">--:--</time>
       </div>
     </header>
 
-    <section class="desktop-icons" aria-label="Applications">
-      <button class="desktop-icon" data-app="instagram">
-        <img src="assets/icons/instagram.svg" alt="">
-        <span>Instagram</span>
-      </button>
-      <button class="desktop-icon" data-app="gmail">
-        <img src="assets/icons/gmail.png" alt="">
-        <span>Gmail</span>
-      </button>
-      <button class="desktop-icon" data-app="whatsapp">
-        <img src="assets/icons/whatsapp.svg" alt="">
-        <span>WhatsApp</span>
-      </button>
-      <button class="desktop-icon" data-app="bank">
-        <img src="assets/icons/bank.svg" alt="">
-        <span>Bank</span>
-      </button>
-      <button class="desktop-icon" data-app="notes">
-        <img src="assets/icons/notes.svg" alt="">
-        <span>Notes</span>
-      </button>
-    </section>
+    <section class="desktop-icons" id="desktopIcons" aria-label="Applications"></section>
+    <aside class="desktop-note is-hidden" id="desktopNote" aria-label="Desktop note"></aside>
 
     <section class="window is-hidden" id="appWindow" aria-live="polite">
       <header class="window-bar" id="windowBar">
@@ -86,16 +103,65 @@
         <div class="window-title" id="windowTitle">Application</div>
       </header>
       <iframe class="app-frame" id="appFrame" title="Application window"></iframe>
+      <div class="resize-handle resize-handle-n" data-resize-handle="n" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-s" data-resize-handle="s" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-w" data-resize-handle="w" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-e" data-resize-handle="e" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-nw" data-resize-handle="nw" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-ne" data-resize-handle="ne" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-sw" data-resize-handle="sw" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-se" data-resize-handle="se" aria-hidden="true"></div>
     </section>
 
-    <nav class="dock" aria-label="Dock">
-      <button data-app="instagram" title="Instagram"><img src="assets/icons/instagram.svg" alt=""></button>
-      <button data-app="gmail" title="Gmail"><img src="assets/icons/gmail.png" alt=""></button>
-      <button data-app="whatsapp" title="WhatsApp"><img src="assets/icons/whatsapp.svg" alt=""></button>
-      <button data-app="bank" title="Bank"><img src="assets/icons/bank.svg" alt=""></button>
-      <button data-app="notes" title="Notes"><img src="assets/icons/notes.svg" alt=""></button>
-    </nav>
+    <section class="window floating-window is-hidden" id="detailWindow" aria-live="polite">
+      <header class="window-bar" id="detailWindowBar">
+        <div class="traffic">
+          <button class="traffic-btn close" id="closeDetailWindow" aria-label="Close"></button>
+          <button class="traffic-btn minimize" id="minimizeDetailWindow" aria-label="Minimize"></button>
+          <button class="traffic-btn zoom" id="maximizeDetailWindow" aria-label="Maximize"></button>
+        </div>
+        <div class="window-title" id="detailWindowTitle">Details</div>
+      </header>
+      <iframe class="app-frame" id="detailFrame" title="Detail window"></iframe>
+      <div class="resize-handle resize-handle-n" data-resize-handle="n" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-s" data-resize-handle="s" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-w" data-resize-handle="w" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-e" data-resize-handle="e" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-nw" data-resize-handle="nw" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-ne" data-resize-handle="ne" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-sw" data-resize-handle="sw" aria-hidden="true"></div>
+      <div class="resize-handle resize-handle-se" data-resize-handle="se" aria-hidden="true"></div>
+    </section>
+
+    <div class="dock-reveal-zone" id="dockRevealZone" aria-hidden="true"></div>
+    <nav class="dock" id="dock" aria-label="Dock"></nav>
   </main>
+
+  <button class="fullscreen-button" id="fullscreenButton" type="button" aria-label="Enter full screen">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M8 3H3v5"></path>
+      <path d="M16 3h5v5"></path>
+      <path d="M21 16v5h-5"></path>
+      <path d="M8 21H3v-5"></path>
+    </svg>
+  </button>
+
+  <section class="security-lock is-hidden" id="securityLock" aria-label="Admin password required" aria-modal="true" role="dialog">
+    <form class="security-card" id="securityForm" autocomplete="off">
+      <span class="security-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+          <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+        </svg>
+      </span>
+      <strong>Admin Password</strong>
+      <div class="security-row">
+        <input id="adminPasswordInput" type="password" inputmode="numeric" aria-label="Admin Password" placeholder="Password">
+        <button type="submit">→</button>
+      </div>
+      <p id="securityError" aria-live="polite"></p>
+    </form>
+  </section>
 
   <script src="scripts/desktop.js"></script>
 </body>

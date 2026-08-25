@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adobe Photoshop</title>
+  <link rel="stylesheet" href="../styles/ahe-photoshop.css">
+</head>
+
+<body>
+  <main class="photoshop-app">
+    <section class="photoshop-home" id="homeView">
+      <aside class="ps-sidebar">
+        <div class="ps-brand">
+          <img src="../assets/icons/adobe-photoshop.svg" alt="">
+          <strong>Photoshop</strong>
+        </div>
+        <nav aria-label="Photoshop navigation">
+          <button class="active" type="button" data-home-section="home">首页</button>
+          <button type="button" data-home-section="files">你的文件</button>
+          <button type="button" data-home-section="shared">共享给你</button>
+          <button type="button" data-home-section="deleted">已删除</button>
+        </nav>
+        <div class="ps-storage">
+          <span>Cloud Storage</span>
+          <b>2.1 GB / 20 GB</b>
+        </div>
+      </aside>
+
+      <section class="ps-home-main">
+        <header class="ps-topbar">
+          <form class="ps-search" id="psSearchForm">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="6"></circle>
+              <path d="m16 16 4 4"></path>
+            </svg>
+            <input id="psSearchInput" type="search" placeholder="搜索你的文件" autocomplete="off">
+          </form>
+          <button class="ps-profile" id="psProfileButton" type="button" aria-label="Account">AH</button>
+          <div class="ps-profile-menu is-hidden" id="psProfileMenu">
+            <strong>阿禾</strong>
+            <small>ahe@oldstudio.mail</small>
+            <button type="button" data-ps-message="账号设置暂不可用">账号设置</button>
+            <button type="button" data-ps-message="同步功能暂不可用">同步状态</button>
+            <button type="button" data-ps-message="首选项暂不可用">首选项</button>
+          </div>
+        </header>
+
+        <section class="ps-section active" data-section-panel="home">
+          <div class="ps-welcome">
+            <div>
+              <p>欢迎回来</p>
+              <h1>开始处理你的 Photoshop 文件</h1>
+            </div>
+            <div class="ps-actions">
+              <button type="button" data-ps-message="新建文件暂不可用">新建文件</button>
+              <button type="button" data-ps-message="打开文件暂不可用">打开</button>
+            </div>
+          </div>
+
+          <section class="recent-section">
+            <div class="section-heading">
+              <h2>最近使用的文件</h2>
+              <button type="button" data-home-section-shortcut="files">全部查看</button>
+            </div>
+            <button class="project-card" id="projectCard" type="button" data-open-project data-project-name="原始绘画文件.psd">
+              <span class="project-thumb">
+                <img src="../assets/images/photoshop/ahe-original-painting-qiongqi.png" alt="原始绘画文件预览">
+              </span>
+              <span class="project-info">
+                <span class="file-name">
+                  <img src="../assets/icons/adobe-photoshop-file.svg" alt="">
+                  <strong>原始绘画文件.psd</strong>
+                </span>
+                <small>Photoshop 图像 · 156.8 MB · 昨天 01:45</small>
+              </span>
+            </button>
+          </section>
+        </section>
+
+        <section class="ps-section" data-section-panel="files">
+          <div class="files-toolbar">
+            <div>
+              <h2>你的文件</h2>
+              <p>Cloud Storage 中的 Photoshop 文件</p>
+            </div>
+            <button type="button" data-ps-message="排序功能暂不可用">最近修改</button>
+          </div>
+          <button class="file-list-row" type="button" data-open-project data-project-name="原始绘画文件.psd">
+            <img src="../assets/icons/adobe-photoshop-file.svg" alt="">
+            <span>
+              <strong>原始绘画文件.psd</strong>
+              <small>D:\Artwork\Original · 156.8 MB</small>
+            </span>
+            <time>2026/03/26 01:45</time>
+          </button>
+        </section>
+
+        <section class="ps-section empty-section" data-section-panel="shared">
+          <h2>共享给你</h2>
+          <p>没有共享文件。</p>
+        </section>
+
+        <section class="ps-section empty-section" data-section-panel="deleted">
+          <h2>已删除</h2>
+          <p>最近删除的 Photoshop 文件会显示在这里。</p>
+        </section>
+      </section>
+    </section>
+
+    <section class="ps-detail-view is-hidden" id="detailView" data-active-tab="details">
+      <header class="detail-titlebar">
+        <div>
+          <img src="../assets/icons/adobe-photoshop.svg" alt="">
+          <strong>原始绘画文件.psd - 详细信息</strong>
+        </div>
+        <button id="backToHome" type="button">关闭</button>
+      </header>
+
+      <nav class="detail-tabs" aria-label="File detail tabs">
+        <button type="button" data-detail-tab="general">常规</button>
+        <button class="active" type="button" data-detail-tab="details">详细信息</button>
+        <button type="button" data-detail-tab="versions">以前的版本</button>
+      </nav>
+
+      <section class="detail-panel">
+        <aside class="detail-preview">
+          <img src="../assets/images/photoshop/ahe-original-painting-qiongqi.png" alt="原始绘画文件预览">
+        </aside>
+
+        <section class="file-info-panel">
+          <div class="file-title-row">
+            <img src="../assets/icons/adobe-photoshop-file.svg" alt="">
+            <input type="text" value="原始绘画文件.psd" aria-label="文件名称">
+          </div>
+
+          <dl class="file-fields">
+            <div>
+              <dt>文件类型：</dt>
+              <dd>Photoshop 图像 (.psd)</dd>
+            </div>
+            <div>
+              <dt>打开方式：</dt>
+              <dd><img src="../assets/icons/adobe-photoshop.svg" alt=""> Adobe Photoshop 2024 <button type="button" data-ps-message="更改打开方式暂不可用">更改(C)...</button></dd>
+            </div>
+            <div>
+              <dt>位置：</dt>
+              <dd>D:\Artwork\Original</dd>
+            </div>
+            <div>
+              <dt>大小：</dt>
+              <dd>156.8 MB (164,338,532 字节)</dd>
+            </div>
+            <div>
+              <dt>占用空间：</dt>
+              <dd>156.8 MB (164,339,712 字节)</dd>
+            </div>
+            <div>
+              <dt>创建时间：</dt>
+              <dd>2026年3月12日，14:22:31</dd>
+            </div>
+            <div>
+              <dt>修改时间：</dt>
+              <dd>2026年3月26日，01:45:12</dd>
+            </div>
+            <div>
+              <dt>访问时间：</dt>
+              <dd>2026年3月26日，02:13:47</dd>
+            </div>
+          </dl>
+
+          <div class="file-attributes">
+            <span>属性：</span>
+            <label><input type="checkbox"> 只读(R)</label>
+            <label><input type="checkbox"> 隐藏(H)</label>
+            <button type="button" data-ps-message="高级属性暂不可用">高级(D)...</button>
+          </div>
+        </section>
+
+        <aside class="version-history">
+          <h2>版本历史记录</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>名称</th>
+                <th>修改日期</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img src="../assets/icons/adobe-photoshop-file.svg" alt="">原始绘画文件.psd (当前版本)</td>
+                <td>2026/03/26 01:45</td>
+              </tr>
+              <tr>
+                <td><img src="../assets/icons/adobe-photoshop-file.svg" alt="">原始绘画文件_修改5.psd</td>
+                <td>2026/03/25 23:11</td>
+              </tr>
+              <tr>
+                <td><img src="../assets/icons/adobe-photoshop-file.svg" alt="">原始绘画文件_修改4.psd</td>
+                <td>2026/03/25 20:32</td>
+              </tr>
+              <tr>
+                <td><img src="../assets/icons/adobe-photoshop-file.svg" alt="">原始绘画文件_修改3.psd</td>
+                <td>2026/03/24 17:08</td>
+              </tr>
+              <tr>
+                <td><img src="../assets/icons/adobe-photoshop-file.svg" alt="">原始绘画文件_修改2.psd</td>
+                <td>2026/03/20 15:41</td>
+              </tr>
+              <tr>
+                <td><img src="../assets/icons/adobe-photoshop-file.svg" alt="">原始绘画文件_修改1.psd</td>
+                <td>2026/03/16 10:27</td>
+              </tr>
+              <tr>
+                <td><img src="../assets/icons/adobe-photoshop-file.svg" alt="">原始绘画文件.psd</td>
+                <td>2026/03/12 14:22</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="author-row">
+            <span>作者：</span>
+            <strong>AH</strong>
+          </div>
+          <button class="delete-version" type="button" data-ps-message="版本删除暂不可用">删除版本</button>
+        </aside>
+      </section>
+    </section>
+
+    <div class="ps-modal is-hidden" id="psModal" role="status" aria-live="polite"></div>
+  </main>
+
+  <script src="../scripts/ahe-photoshop.js"></script>
+</body>
+
+</html>

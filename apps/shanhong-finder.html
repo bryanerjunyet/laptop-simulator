@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finder</title>
+  <link rel="stylesheet" href="../styles/finder.css">
+</head>
+
+<body>
+  <main class="finder-app" data-persona="shanhong">
+    <aside>
+      <strong>Finder</strong>
+      <button class="active" type="button" data-folder="documents">Documents</button>
+      <button type="button" data-folder="downloads">Downloads</button>
+      <button type="button" data-folder="archive">Archive</button>
+    </aside>
+    <section class="finder-main">
+      <header class="finder-header">
+        <h1 id="folderTitle">Documents</h1>
+      </header>
+      <div class="finder-content">
+        <div class="file-list" id="fileList"></div>
+        <article class="file-preview" id="filePreview"></article>
+      </div>
+    </section>
+  </main>
+
+  <script src="../scripts/finder.js"></script>
+</body>
+
+</html>

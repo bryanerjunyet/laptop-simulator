@@ -88,61 +88,179 @@ folders.auditions = folders.inbox.filter((mail) => /Audition|Casting|试镜|面�
 
 const list = document.getElementById("mailList");
 const reader = document.getElementById("reader");
+const gmailApp = document.querySelector(".gmail-app");
+const gmailMenuButton = document.getElementById("gmailMenuButton");
+const gmailSearchForm = document.getElementById("gmailSearchForm");
+const mailSearchInput = document.getElementById("mailSearchInput");
+const mailRange = document.querySelector(".mail-toolbar > span");
+const toolbarCheckboxButton = document.querySelector(".toolbar-checkbox-button");
+const mailMoreButton = document.getElementById("mailMoreButton");
+const mailMoreMenu = document.getElementById("mailMoreMenu");
+const gmailProfileButton = document.getElementById("gmailProfileButton");
+const gmailProfileMenu = document.getElementById("gmailProfileMenu");
+let activeFolder = "inbox";
+let activeVisibleMails = folders.inbox;
+
+gmailMenuButton.addEventListener("click", () => {
+  gmailApp.classList.toggle("is-sidebar-collapsed");
+});
+
+gmailSearchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  openFolder(activeFolder);
+});
+
+mailSearchInput.addEventListener("input", () => {
+  openFolder(activeFolder);
+});
+
+toolbarCheckboxButton.addEventListener("click", () => {
+  toolbarCheckboxButton.classList.toggle("is-selected");
+});
+
+mailMoreButton.addEventListener("click", (event) => {
+  event.stopPropagation();
+  gmailProfileMenu.classList.add("is-hidden");
+  mailMoreMenu.classList.toggle("is-hidden");
+});
+
+mailMoreMenu.addEventListener("click", (event) => {
+  event.stopPropagation();
+});
+
+gmailProfileButton.addEventListener("click", (event) => {
+  event.stopPropagation();
+  mailMoreMenu.classList.add("is-hidden");
+  gmailProfileMenu.classList.toggle("is-hidden");
+});
+
+gmailProfileMenu.addEventListener("click", (event) => {
+  event.stopPropagation();
+});
+
+document.addEventListener("click", () => {
+  gmailProfileMenu.classList.add("is-hidden");
+  mailMoreMenu.classList.add("is-hidden");
+});
 
 document.querySelectorAll("[data-folder]").forEach((button) => {
   button.addEventListener("click", () => {
-    document.querySelectorAll("[data-folder]").forEach((item) => item.classList.remove("active"));
-    button.classList.add("active");
+    activateFolder(button.dataset.folder);
     openFolder(button.dataset.folder);
   });
 });
 
 function openFolder(folder) {
   if (folder === "compose") {
-    list.innerHTML = "";
-    reader.innerHTML = `
-      <div class="compose-panel">
-        <header>New Message</header>
-        <div>To</div>
-        <div>Subject</div>
-        <div style="height:240px">The draft is empty.</div>
-      </div>
-    `;
+    openCompose();
     return;
   }
 
-  const mails = folders[folder] || [];
+  gmailApp.classList.remove("is-reading");
+  activeFolder = folder;
+  const baseMails = folders[folder] || [];
+  const query = mailSearchInput.value.trim().toLowerCase();
+  const mails = query
+    ? baseMails.filter((mail) => mailMatchesSearch(mail, query))
+    : baseMails;
+  activeVisibleMails = mails;
+  updateMailRange(mails.length, baseMails.length);
+
   if (!mails.length) {
     list.innerHTML = "";
-    reader.innerHTML = `<div class="empty"><div><h2>No mail here</h2><p>This folder has no messages.</p></div></div>`;
+    reader.innerHTML = `<div class="empty"><div><h2>No mail here</h2><p>${query ? "No matching messages." : "This folder has no messages."}</p></div></div>`;
     return;
   }
 
   list.innerHTML = mails.map((mail, index) => `
-    <button class="mail-row ${mail[3] ? "unread" : ""} ${index === 0 ? "active" : ""}" data-index="${index}">
-      <span class="dot" style="${mail[3] ? "" : "opacity:0"}"></span>
+    <article class="mail-row ${mail[3] ? "unread" : ""} ${index === 0 ? "active" : ""}" data-index="${index}" role="button" tabindex="0">
+      <button class="row-check" type="button" aria-label="Select mail"></button>
+      <span class="row-star ${folder === "starred" ? "is-starred" : ""}" aria-hidden="true">${folder === "starred" ? "★" : "☆"}</span>
       <span class="mail-copy">
         <span class="sender">${mail[0]}</span>
-        <span class="subject">${mail[1]}</span>
-        <span class="snippet">${mail[4]}</span>
+        <span class="subject">${mail[1]} <em>${mail[4]}</em></span>
       </span>
       <span class="time">${mail[2]}</span>
-    </button>
+    </article>
   `).join("");
 
   list.querySelectorAll(".mail-row").forEach((row) => {
     row.addEventListener("click", () => {
-      list.querySelectorAll(".mail-row").forEach((item) => item.classList.remove("active"));
-      row.classList.add("active");
-      renderMail(mails[Number(row.dataset.index)]);
+      selectMailRow(row);
+    });
+
+    row.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      selectMailRow(row);
+    });
+  });
+
+  list.querySelectorAll(".row-check").forEach((checkbox) => {
+    checkbox.addEventListener("click", (event) => {
+      event.stopPropagation();
+      checkbox.classList.toggle("is-selected");
     });
   });
 
   renderMail(mails[0]);
 }
 
+function selectMailRow(row) {
+  list.querySelectorAll(".mail-row").forEach((item) => item.classList.remove("active"));
+  row.classList.add("active");
+  gmailApp.classList.add("is-reading");
+  renderMail(activeVisibleMails[Number(row.dataset.index)]);
+}
+
+function mailMatchesSearch(mail, query) {
+  return mail.join(" ").toLowerCase().includes(query);
+}
+
+function updateMailRange(visibleCount, totalCount) {
+  if (!mailRange) return;
+  mailRange.textContent = visibleCount
+    ? `1-${visibleCount} of ${totalCount}`
+    : `0-0 of ${totalCount}`;
+}
+
+function openCompose() {
+  list.innerHTML = "";
+  gmailApp.classList.add("is-reading");
+  reader.innerHTML = `
+    <button class="compact-back-mail" type="button" id="compactBackCompose">Back</button>
+    <form class="compose-panel compose-form" id="composeForm">
+      <header>New Message</header>
+      <input type="email" placeholder="To">
+      <input type="text" placeholder="Subject">
+      <textarea placeholder="Compose email"></textarea>
+      <footer>
+        <button type="submit">Send</button>
+      </footer>
+    </form>
+  `;
+
+  document.getElementById("composeForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    activateFolder("inbox");
+    openFolder("inbox");
+  });
+
+  document.getElementById("compactBackCompose").addEventListener("click", () => {
+    activateFolder(activeFolder);
+    openFolder(activeFolder);
+  });
+}
+
+function activateFolder(folder) {
+  document.querySelectorAll("[data-folder]").forEach((item) => {
+    item.classList.toggle("active", item.dataset.folder === folder);
+  });
+}
+
 function renderMail(mail) {
   reader.innerHTML = `
+    <button class="compact-back-mail" type="button" id="compactBackMail">Back</button>
     <h1>${mail[1]}</h1>
     <div class="meta">
       <strong>${mail[0]}</strong><br>
@@ -150,6 +268,10 @@ function renderMail(mail) {
     </div>
     ${mail[5].split("\n\n").map((paragraph) => `<p>${paragraph.replaceAll("\n", "<br>")}</p>`).join("")}
   `;
+
+  document.getElementById("compactBackMail").addEventListener("click", () => {
+    gmailApp.classList.remove("is-reading");
+  });
 }
 
 openFolder("inbox");

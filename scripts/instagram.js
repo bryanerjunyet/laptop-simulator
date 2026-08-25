@@ -7,7 +7,7 @@ const account = {
 
 const posts = [
   {
-    image: "../assets/images/insta-post-1.jfif",
+    image: "../assets/images/posts/zhuiguang-performance-1.jfif",
     likes: 8421,
     caption: "今晚真的像梦一样。谢谢台下每一个跟我一起唱的人。那一刻我真的以为，自己离那个舞台没有那么远。✨",
     comments: [
@@ -19,7 +19,7 @@ const posts = [
     ]
   },
   {
-    image: "../assets/images/insta-post-2.jfif",
+    image: "../assets/images/posts/zhuiguang-performance-2.jfif",
     likes: 6983,
     caption: "有些梦到现在还是很远。可是也许就是因为很远，才值得一直走过去。🌙",
     comments: [

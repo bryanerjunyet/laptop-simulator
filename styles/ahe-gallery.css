@@ -1,0 +1,121 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: #202124;
+  font-family: Arial, "Microsoft YaHei", sans-serif;
+  background: #fff;
+}
+
+button {
+  color: inherit;
+  font: inherit;
+}
+
+.gallery-app {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  overflow: hidden;
+}
+
+.gallery-side {
+  padding: 22px 14px;
+  border-right: 1px solid #e2e5ec;
+  background: #f4f5f8;
+}
+
+.gallery-side strong {
+  display: block;
+  margin: 0 0 22px 10px;
+  font-size: 22px;
+}
+
+.gallery-side button {
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.gallery-side button.active,
+.gallery-side button:hover {
+  background: #e5e8f1;
+}
+
+.gallery-view {
+  overflow: auto;
+  padding: 28px;
+}
+
+.gallery-view header {
+  margin-bottom: 18px;
+}
+
+.gallery-view h1 {
+  margin: 0 0 5px;
+  font-size: 24px;
+}
+
+.gallery-view p,
+figcaption {
+  color: #6b7280;
+}
+
+figure {
+  margin: 0;
+}
+
+figure img {
+  width: 100%;
+  max-width: 1120px;
+  display: block;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 45px rgba(60, 64, 67, 0.16);
+}
+
+figcaption {
+  max-width: 900px;
+  margin-top: 16px;
+  line-height: 1.7;
+}
+
+.gallery-empty {
+  min-height: 100%;
+  display: grid;
+  place-content: center;
+  color: #7b8089;
+  text-align: center;
+}
+
+.gallery-empty h1 {
+  margin: 0 0 8px;
+  color: #30343b;
+  font-size: 30px;
+}
+
+.gallery-empty p {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .gallery-app {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-side {
+    display: none;
+  }
+
+  .gallery-view {
+    padding: 18px;
+  }
+}
