@@ -912,39 +912,40 @@ function renderAppIcon(app) {
 }
 
 async function applyLaptopWallpaper(laptopId, laptop) {
-  desktopScreen.style.setProperty("--desktop-wallpaper", `url("${laptop.wallpaper}")`);
+  setWallpaper(desktopScreen, "--desktop-wallpaper", laptop.wallpaper);
 
   const discoveredWallpaper = await discoverWallpaper(laptop.wallpaperDir, laptop.wallpaper);
   if (currentLaptopId !== laptopId) return;
 
-  desktopScreen.style.setProperty("--desktop-wallpaper", `url("${discoveredWallpaper}")`);
+  setWallpaper(desktopScreen, "--desktop-wallpaper", discoveredWallpaper);
 }
 
 async function applyLoginWallpaper(laptopId, laptop) {
-  loginScreen.style.setProperty("--login-wallpaper", `url("${laptop.wallpaper}")`);
+  setWallpaper(loginScreen, "--login-wallpaper", laptop.wallpaper);
 
   const discoveredWallpaper = await discoverWallpaper(laptop.wallpaperDir, laptop.wallpaper);
   if (pendingLaptopId !== laptopId) return;
 
-  loginScreen.style.setProperty("--login-wallpaper", `url("${discoveredWallpaper}")`);
+  setWallpaper(loginScreen, "--login-wallpaper", discoveredWallpaper);
 }
 
 async function applyDefaultLoginWallpaper() {
-  loginScreen.style.setProperty("--login-wallpaper", `url("${defaultLoginWallpaper}")`);
+  setWallpaper(loginScreen, "--login-wallpaper", defaultLoginWallpaper);
 
   const discoveredWallpaper = await discoverWallpaper(defaultLoginWallpaperDir, defaultLoginWallpaper);
   if (pendingLaptopId) return;
 
-  loginScreen.style.setProperty("--login-wallpaper", `url("${discoveredWallpaper}")`);
+  setWallpaper(loginScreen, "--login-wallpaper", discoveredWallpaper);
 }
 
 async function discoverWallpaper(directory, fallback) {
-  if (!directory) return fallback;
+  const fallbackUrl = resolveAssetUrl(fallback);
+  if (!directory) return fallbackUrl;
 
   try {
-    const folderUrl = new URL(directory, window.location.href);
+    const folderUrl = new URL(directory, document.baseURI);
     const response = await fetch(folderUrl.href);
-    if (!response.ok) return fallback;
+    if (!response.ok) return fallbackUrl;
 
     const html = await response.text();
     const documentFragment = new DOMParser().parseFromString(html, "text/html");
@@ -955,17 +956,27 @@ async function discoverWallpaper(directory, fallback) {
       .filter((url) => wallpaperExtensions.some((extension) => url.pathname.toLowerCase().endsWith(extension)))
       .sort((first, second) => first.pathname.localeCompare(second.pathname));
 
-    return candidates[0]?.href || fallback;
+    return candidates[0]?.href || fallbackUrl;
   } catch {
-    return fallback;
+    return fallbackUrl;
   }
+}
+
+function setWallpaper(element, property, path) {
+  element.style.setProperty(property, `url("${resolveAssetUrl(path)}")`);
+}
+
+function resolveAssetUrl(path) {
+  return new URL(String(path).replace(/\\/g, "/"), document.baseURI).href;
 }
 
 function updateClock() {
   const now = new Date();
-  const currentTime = now.toLocaleTimeString([], {
+  const currentTime = now.toLocaleTimeString("zh-CN", {
     hour: "2-digit",
-    minute: "2-digit"
+    minute: "2-digit",
+    hourCycle: "h23",
+    hour12: false
   });
   const currentDate = now.toLocaleDateString("zh-CN", {
     weekday: "long",
