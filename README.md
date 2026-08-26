@@ -1,539 +1,109 @@
-# PROJECT README — “还没红的人” Laptop Mockup Simulation
+# Laptop Simulator
 
-## PROJECT CONTEXT
+An interactive laptop mockup simulator for immersive story exploration. The site presents a MacBook-style login screen where visitors choose a persona account, enter that persona's laptop, and explore mocked desktop applications for clues, documents, messages, media, and browser pages.
 
-This project is part of an immersive storytelling station (“沉浸式体验区”) for an event called 《追光者》.
+Hosted site: https://laptop-simulator.vercel.app/
 
-The station tells the story of a talented university performer who dreamed of becoming a singer / performer / artist, but after graduation slowly faced rejection, financial pressure, self-doubt and loneliness while chasing the dream.
+## Current Personas
 
-The laptop simulation represents the protagonist’s digital life.
+### 追光
 
-Players will explore the laptop by opening several applications and slowly discovering clues about the protagonist’s emotional journey.
+A persona laptop centered around a performer-focused laptop. This account contains a digital-life storyline built through apps such as Instagram, Gmail, WhatsApp, Bank, and Notes.
 
-The goal is NOT to create a fully functional application.
+### 单鸿
 
-The goal is:
+A persona laptop centered around email evidence and communication. The main experience is a Gmail-style inbox with story-relevant Chinese email content, plus supporting desktop apps such as Chrome, Calendar, Finder, Gallery, and Notes.
 
-* immersive storytelling
-* emotional realism
-* believable digital life simulation
-* clue discovery
+### 阿禾
 
-The laptop should feel:
+A persona laptop focused on media discussion, saved public comments, image evidence, and artwork file details. The desktop includes Chrome, Photoshop, Calendar, Finder, Gallery, Notes, and Gmail.
 
-* realistic
-* aesthetic
-* slightly cinematic
-* emotionally layered
+## Main Features
 
-The player experience flow should be:
+- MacBook-inspired account login page with persona profile selection.
+- Password-protected persona login for selected laptops.
+- Admin password prompt for logout and fullscreen exit protection.
+- Persona-specific wallpapers and desktop layouts.
+- Resizable, draggable, and maximizable desktop application windows.
+- Dock reveal behavior when an app window is maximized.
+- Mock Gmail interfaces with inbox, mail reading, search, compose, and attachment preview behavior.
+- Mock Chrome interfaces with tabs, Google search mock page, news report page, and Weibo-style page.
+- Mock Finder, Gallery, Calendar, Notes, and Photoshop-style project/detail interfaces.
+- Organized assets for icons, wallpapers, evidence images, news images, Photoshop files, and post images.
 
-1. Instagram → “Wow, this person used to shine.”
-2. Gmail → “Reality started rejecting him.”
-3. WhatsApp → “He is emotionally struggling.”
-4. Bank App → “He is financially collapsing.”
+## Project Structure
 
-Finally:
-Players understand:
-“He is not famous yet, but he never truly gave up.”
-
----
-
-# TECH STACK
-
-Keep everything SIMPLE.
-
-Recommended stack:
-
-* HTML
-* CSS
-* Vanilla JavaScript
-
-No frameworks needed.
-
-No backend needed.
-
-Everything can be hardcoded.
-
-This project may:
-
-* run locally
-* or deploy to Vercel
-
-Therefore:
-
-* keep project lightweight
-* keep assets organised
-* keep logic simple
-
----
-
-# PROJECT STRUCTURE
-
-Recommended structure:
-
-```
-/project-root
-│
-├── index.html
-├── style.css
-├── script.js
-│
-├── /assets
-│   ├── /icons
-│   ├── /images
-│   ├── /audio
-│
-├── /apps
-│   ├── instagram.html
-│   ├── gmail.html
-│   ├── whatsapp.html
-│   ├── bank.html
-│
-├── /styles
-│   ├── desktop.css
-│   ├── instagram.css
-│   ├── gmail.css
-│   ├── whatsapp.css
-│   ├── bank.css
-│
-├── /scripts
-│   ├── desktop.js
-│   ├── instagram.js
-│   ├── gmail.js
-│   ├── whatsapp.js
-│   ├── bank.js
+```text
+.
+|-- index.html
+|-- README.md
+|-- apps/
+|   |-- ahe-chrome.html
+|   |-- ahe-finder.html
+|   |-- ahe-gallery.html
+|   |-- ahe-photoshop.html
+|   |-- ahe-photoshop-detail.html
+|   |-- calendar.html
+|   |-- empty-gmail.html
+|   |-- gmail.html
+|   |-- mock-chrome.html
+|   |-- mock-notes.html
+|   |-- shanhong-finder.html
+|   |-- shanhong-gmail.html
+|   |-- instagram.html
+|   |-- whatsapp.html
+|   `-- bank.html
+|-- assets/
+|   |-- icons/
+|   `-- images/
+|       |-- evidence/
+|       |-- news/
+|       |-- photoshop/
+|       |-- posts/
+|       `-- wallpapers/
+|-- scripts/
+`-- styles/
 ```
 
----
+## Setup
 
-# OVERALL LAPTOP UI DESIGN
+No framework, backend, package install, or build step is required. The project is built with plain HTML, CSS, and vanilla JavaScript.
 
-The laptop should look like:
+Requirements:
 
-* a modern MacBook / Windows desktop
-* cinematic
-* clean
-* slightly dark aesthetic
+- A modern browser.
+- A local static server for development.
 
-Desktop wallpaper:
+## How To Run Locally
 
-* moody
-* artistic
-* music / city night vibes
+From the project root:
 
-Desktop contains:
+```bash
+python -m http.server 8001
+```
 
-* Instagram icon
-* Gmail icon
-* WhatsApp icon
-* Bank icon
+Then open:
 
-Other icons:
+```text
+http://127.0.0.1:8001/
+```
 
-* can exist
-* but NOT clickable
+You can also use any other static server, such as VS Code Live Server.
 
-Only these apps are interactive:
+## Deployment
 
-* Instagram
-* Gmail
-* WhatsApp
-* Bank
+The project can be deployed as a static site. The current hosted version is deployed on Vercel:
 
-When clicked:
+```text
+https://laptop-simulator.vercel.app/
+```
 
-* app opens like a desktop window
-* smooth animation preferred
-* no need for perfect realism
+Because the app is static, deployment should serve the repository root with `index.html` as the entry page.
 
----
+## Notes For Future Expansion
 
-# IMPORTANT STORY DESIGN
-
-The apps represent DIFFERENT LIFE PHASES.
-
-## Instagram
-
-Represents:
-
-* university glory days
-* confidence
-* popularity
-* dreams
-
-## Gmail
-
-Represents:
-
-* rejection
-* failed auditions
-* no opportunities
-
-## WhatsApp
-
-Represents:
-
-* emotional pressure
-* loneliness
-* self doubt
-* concern from others
-
-## Bank
-
-Represents:
-
-* financial collapse
-* harsh reality
-
----
-
-# INSTAGRAM PAGE GUIDE
-
-## PURPOSE
-
-Players should feel:
-“Wow, this person used to shine.”
-
-The Instagram page should:
-
-* feel vibrant
-* confident
-* attractive
-* youthful
-
-Only TWO POSTS needed.
-
-Keep it simple but emotionally impactful.
-
----
-
-## PROFILE DETAILS
-
-Suggested profile:
-
-Username:
-@jayy.wav
-
-Bio:
-Singer | Performer | Dreamer
-“one day i’ll sing on bigger stages.”
-
-Followers:
-12.4k
-
-Following:
-532
-
-Posts:
-24
-
-Profile picture:
-confident performance photo
-
----
-
-## POST 1
-
-Image:
-(main performance image provided later)
-
-Caption:
-
-“Still can’t believe this happened tonight 🥹
-Thank you everyone for singing together with me.
-One of the happiest nights of my life.”
-
-Likes:
-8,421 likes
-
-Comments:
-
-* “你真的会红😭”
-* “BRO YOU ATE THIS 🔥”
-* “下次开演唱会我要第一排”
-* “校草本人😭”
-* “THIS IS YOUR ERA”
-* “唱歌真的太稳了吧”
-* “我妈都问你是谁了😂”
-* “future superstar fr”
-* “好想再听你现场一次🥹”
-
----
-
-## POST 2
-
-Image:
-(second performance image)
-
-Caption:
-
-“Some dreams still feel impossible… but maybe that’s why they’re worth chasing.”
-
-Likes:
-6,983 likes
-
-Comments:
-
-* “你一定做得到的”
-* “不要放弃唱歌🥹”
-* “真的很喜欢你的声音”
-* “等你以后大红”
-* “main character energy ✨”
-* “bro belongs on stage”
-
----
-
-# GMAIL PAGE GUIDE
-
-## PURPOSE
-
-Players should feel:
-“Reality slowly started rejecting him.”
-
-This page should:
-
-* feel minimal
-* cold
-* repetitive
-* emotionally draining
-
-IMPORTANT:
-The inbox should contain MANY rejection emails.
-
-This creates emotional pressure.
-
----
-
-## GMAIL DESIGN
-
-Keep interface:
-
-* clean
-* white
-* realistic Gmail inspired
-
-Use:
-
-* mostly unread emails
-* repeated rejection patterns
-
----
-
-## EMAIL SUBJECT EXAMPLES
-
-* Audition Result
-* Performance Opportunity Update
-* Casting Decision
-* 面试结果通知
-* 关于您的试镜结果
-* Music Collaboration Application
-
----
-
-## EMAIL CONTENT EXAMPLES
-
-### Email 1
-
-Subject:
-Audition Result
-
-Content:
-
-Dear Applicant,
-
-Thank you for attending the audition.
-
-Unfortunately, after careful consideration, we will not be moving forward with your application.
-
-We truly appreciate your interest and effort.
-
-Regards,
-Casting Team
-
----
-
-### Email 2
-
-Subject:
-关于您的试镜结果
-
-Content:
-
-您好，
-
-感谢您参与本次试镜。
-
-经过讨论后，我们这次决定选择其他更适合角色的表演者。
-
-祝您未来一切顺利。
-
----
-
-### Email 3
-
-Subject:
-Performance Opportunity Update
-
-Content:
-
-Hi Jay,
-
-Thank you for your submission.
-
-At this moment, we have decided to proceed with another candidate.
-
-We appreciate your passion and wish you the best.
-
----
-
-IMPORTANT:
-Inbox should visually show MANY failed attempts.
-
----
-
-# WHATSAPP PAGE GUIDE
-
-## PURPOSE
-
-This is the MOST emotional section.
-
-Players should feel:
-“He is slowly collapsing emotionally.”
-
-The WhatsApp should feel:
-
-* personal
-* intimate
-* lonely
-
-The player should scroll through chats and realise:
-
-* everyone is moving on
-* he is still struggling
-
----
-
-## IMPORTANT CHAT TYPES
-
-### Mother
-
-Warm but worried.
-
-Examples:
-
-* “最近还好吗？”
-* “记得吃饭”
-* “不要太累哦”
-
----
-
-### Friend
-
-Supportive but realistic.
-
-Examples:
-
-* “你还想继续坚持吗？”
-* “要不要先找稳定工作？”
-
----
-
-### Director
-
-Cold and professional.
-
-Examples:
-
-* “这次角色还是给别人了”
-* voice note rejection
-
----
-
-### Self Notes / Pinned Message
-
-Most painful clue.
-
-Example:
-“再坚持一下。”
-
----
-
-# BANK APP GUIDE
-
-## PURPOSE
-
-This is the FINAL REALITY HIT.
-
-Players should immediately understand:
-“He has almost no money left.”
-
-NO NEED complicated transaction history.
-
-Minimal is stronger.
-
----
-
-## DESIGN
-
-The bank app should:
-
-* open immediately to dashboard
-* dark mode preferred
-* realistic Malaysian banking feel
-
----
-
-## IMPORTANT CONTENT
-
-Account Balance:
-RM0.10
-
-That is the MOST important visual.
-
-Can include:
-
-* overdue payment warning
-* insufficient balance warning
-* low balance alert
-
-Optional:
-Recent transaction:
-
-* RM4.50 — Convenience Store
-* RM12.00 — Instant Noodles
-* RM2.40 — LRT
-
----
-
-# IMPORTANT DESIGN PHILOSOPHY
-
-Do NOT over-design.
-
-This project succeeds through:
-
-* emotional realism
-* believable details
-* subtle storytelling
-
-NOT:
-
-* advanced coding
-* flashy animation
-
-The player should feel:
-“This feels like a real person.”
-
-That is the most important goal.
-
----
-
-# FINAL EMOTIONAL GOAL
-
-At the end, players should feel:
-
-“He is not famous yet.
-
-But he really tried.
-
-And maybe that already means something.”
+- Add new persona laptops by registering a new account in `scripts/desktop.js`.
+- Add new application pages under `apps/`.
+- Add each app's JavaScript under `scripts/` and styles under `styles/`.
+- Place persona wallpapers in `assets/images/wallpapers/<persona-name>/`.
+- Keep story content grounded in the provided PDFs and avoid adding unrelated details beyond the script context.
