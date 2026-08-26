@@ -245,9 +245,9 @@ const extraMails = [
 ];
 
 const folders = {
-  inbox: [...requiredMails, ...extraMails],
-  important: requiredMails,
-  sent: requiredMails.filter((mail) => mail.sender === "单鸿"),
+  inbox: sortMailsByTime([...requiredMails, ...extraMails]),
+  important: sortMailsByTime(requiredMails),
+  sent: sortMailsByTime(requiredMails.filter((mail) => mail.sender === "单鸿")),
   trash: []
 };
 
@@ -268,6 +268,14 @@ let activeVisibleMails = folders.inbox;
 const attachmentImages = {
   "对比证据_媒体报道版.png": "../assets/images/evidence/ahe-media-comparison.png"
 };
+
+function sortMailsByTime(mails) {
+  return [...mails].sort((first, second) => getMailTimestamp(second.time) - getMailTimestamp(first.time));
+}
+
+function getMailTimestamp(time) {
+  return new Date(time.replace(/\./g, "-").replace(" ", "T")).getTime();
+}
 
 gmailMenuButton.addEventListener("click", () => {
   gmailApp.classList.toggle("is-sidebar-collapsed");
