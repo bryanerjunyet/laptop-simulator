@@ -26,7 +26,7 @@ const laptops = {
     wallpaperDir: "assets/images/wallpapers/shanhong/",
     wallpaper: "assets/images/wallpapers/shanhong/shanhong-wallpaper.jpg",
     note: "",
-    passwordHash: "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    passwordHash: "75f7313c20144e39edcf57a14733d074aee0c482320d5178ee0ef2f2608c2996",
     apps: {
       gmail: { title: "Gmail", url: "apps/shanhong-gmail.html", icon: "assets/icons/gmail.png", translatable: true },
       chrome: { title: "Chrome", url: "apps/mock-chrome.html?laptop=shanhong", icon: "assets/icons/chrome.png", translatable: true },
@@ -45,7 +45,7 @@ const laptops = {
     wallpaperDir: "assets/images/wallpapers/ahe/",
     wallpaper: "assets/images/wallpapers/ahe/peakpx.jpg",
     note: "",
-    passwordHash: "b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0",
+    passwordHash: "b22eb34537f6f6753da6e0dc05713be0ccc35ef12dae0f6bf19b5206d373af33",
     apps: {
       chrome: { title: "Chrome", url: "apps/ahe-chrome.html", icon: "assets/icons/chrome.png", translatable: true },
       photoshop: { title: "Photoshop", url: "apps/ahe-photoshop.html", icon: "assets/icons/adobe-photoshop.svg", translatable: true },
