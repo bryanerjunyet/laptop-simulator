@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Qiong Qi Records">
+  <defs>
+    <radialGradient id="core" cx="50%" cy="42%" r="62%">
+      <stop offset="0" stop-color="#fff7c8"/>
+      <stop offset="0.34" stop-color="#8fd2ff"/>
+      <stop offset="0.68" stop-color="#f7a0dc"/>
+      <stop offset="1" stop-color="#121b44"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="32" y1="26" x2="218" y2="232">
+      <stop offset="0" stop-color="#fff4a8"/>
+      <stop offset="0.44" stop-color="#e6b94f"/>
+      <stop offset="1" stop-color="#ff79cd"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="#101936"/>
+  <circle cx="128" cy="128" r="102" fill="url(#core)"/>
+  <path d="M44 141C64 65 104 36 128 36s64 29 84 105c-24-26-51-40-84-40s-60 14-84 40Z" fill="none" stroke="url(#gold)" stroke-width="10" stroke-linecap="round" filter="url(#glow)"/>
+  <path d="M74 152c19 24 37 36 54 36s35-12 54-36" fill="none" stroke="#fff8d8" stroke-width="8" stroke-linecap="round"/>
+  <path d="M82 105l34 18-34 18M174 105l-34 18 34 18" fill="none" stroke="#111936" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M128 113v53" stroke="#fff9d9" stroke-width="8" stroke-linecap="round"/>
+  <path d="M128 56l9 28 28 9-28 9-9 28-9-28-28-9 28-9 9-28Z" fill="#fff7bd" filter="url(#glow)"/>
+  <path d="M54 204c46 24 102 24 148 0" fill="none" stroke="url(#gold)" stroke-width="8" stroke-linecap="round"/>
+</svg>

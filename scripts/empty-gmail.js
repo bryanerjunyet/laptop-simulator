@@ -17,7 +17,20 @@ const mailMoreButton = document.getElementById("mailMoreButton");
 const mailMoreMenu = document.getElementById("mailMoreMenu");
 const gmailProfileButton = document.getElementById("gmailProfileButton");
 const gmailProfileMenu = document.getElementById("gmailProfileMenu");
+const gmailProfileName = gmailProfileMenu.querySelector("strong");
+const gmailProfileEmail = gmailProfileMenu.querySelector("small");
+const personas = {
+  ahe: { initial: "禾", name: "阿禾", email: "ahe@oldstudio.mail", color: "#3d697c", label: "阿禾 Gmail profile" },
+  qiongqi: { initial: "穷", name: "穷奇", email: "qiongqi@archive.local", color: "#c39a32", label: "穷奇 Gmail profile" }
+};
+const currentPersona = personas[new URLSearchParams(window.location.search).get("laptop")] || personas.ahe;
 let activeFolder = "inbox";
+
+gmailProfileButton.textContent = currentPersona.initial;
+gmailProfileButton.style.setProperty("--profile-color", currentPersona.color);
+gmailProfileButton.setAttribute("aria-label", currentPersona.label);
+gmailProfileName.textContent = currentPersona.name;
+gmailProfileEmail.textContent = currentPersona.email;
 
 gmailMenuButton.addEventListener("click", () => {
   gmailApp.classList.toggle("is-sidebar-collapsed");

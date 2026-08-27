@@ -65,8 +65,13 @@ const laptops = {
     wallpaperDir: "assets/images/wallpapers/qiongqi/",
     wallpaper: "assets/images/wallpapers/qiongqi/qiongqi-wallpaper.jpg",
     note: "",
-    passwordHash: "40919b185db059d80fd819acfcdc505ac02fa14b381781335ed8c5be0f5b776a",
-    apps: {}
+    passwordHash: "c7367277e3a4a32961bd050c6c1bef7f7f94c4c8ddc064f3839ab786f1bdbebb",
+    apps: {
+      records: { title: "穷奇观察记录", url: "apps/qiongqi-records.html", icon: "assets/icons/qiongqi-records.svg", showOnDesktop: false, evadeBeforeOpen: true },
+      chrome: { title: "Chrome", url: "apps/mock-chrome.html?laptop=qiongqi", icon: "assets/icons/chrome.png", showOnDesktop: false, translatable: true },
+      gmail: { title: "Gmail", url: "apps/empty-gmail.html?laptop=qiongqi", icon: "assets/icons/gmail.png", showOnDesktop: false, translatable: true },
+      gallery: { title: "Gallery", url: "apps/empty-gallery.html", icon: "assets/icons/gallery-photos.svg", showOnDesktop: false, translatable: true }
+    }
   }
 };
 
@@ -337,6 +342,8 @@ detailWindow.addEventListener("pointerdown", startDetailWindowResize, true);
 window.addEventListener("pointermove", resizeWindow);
 
 window.addEventListener("pointermove", resizeDetailWindow);
+
+desktopScreen.addEventListener("pointermove", handleEvasiveDockPointerMove);
 
 window.addEventListener("pointerup", stopWindowResize);
 
@@ -1493,8 +1500,9 @@ function resetWindow() {
 
 function renderDesktop(laptop) {
   const appEntries = Object.entries(laptop.apps);
+  const desktopEntries = appEntries.filter(([, app]) => app.showOnDesktop !== false);
   desktopIcons.className = `desktop-icons ${laptop.iconLayout || ""}`.trim();
-  desktopIcons.innerHTML = appEntries.map(([appId, app]) => `
+  desktopIcons.innerHTML = desktopEntries.map(([appId, app]) => `
     <button class="desktop-icon" data-app="${appId}">
       ${renderAppIcon(app)}
       <span>${app.title}</span>
@@ -1502,13 +1510,16 @@ function renderDesktop(laptop) {
   `).join("");
 
   dock.innerHTML = appEntries.map(([appId, app]) => `
-    <button data-app="${appId}" title="${app.title}">
+    <button data-app="${appId}" title="${app.title}" ${app.evadeBeforeOpen ? 'data-evade-app="true" data-evade-count="0" aria-disabled="true"' : ""}>
       ${renderAppIcon(app)}
     </button>
   `).join("");
 
   document.querySelectorAll("[data-app]").forEach((button) => {
-    button.addEventListener("click", () => openApp(button.dataset.app));
+    button.addEventListener("click", () => {
+      if (!canOpenEvasiveApp(button)) return;
+      openApp(button.dataset.app);
+    });
   });
 
   if (laptop.note) {
@@ -1517,6 +1528,72 @@ function renderDesktop(laptop) {
   } else {
     desktopNote.textContent = "";
     desktopNote.classList.add("is-hidden");
+  }
+}
+
+function canOpenEvasiveApp(button) {
+  if (!button.matches("[data-evade-app]")) return true;
+
+  const attempts = Number(button.dataset.evadeCount || 0);
+  if (attempts >= 10) return true;
+
+  evadeDockApp(button);
+  return false;
+}
+
+function handleEvasiveDockPointerMove(event) {
+  if (currentLaptopId !== "qiongqi") return;
+
+  dock.querySelectorAll("[data-evade-app]:not([data-evade-complete])").forEach((button) => {
+    const rect = button.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const distance = Math.hypot(centerX - event.clientX, centerY - event.clientY);
+
+    if (distance < 92) {
+      evadeDockApp(button, event);
+    }
+  });
+}
+
+function evadeDockApp(button, event = null) {
+  const now = Date.now();
+  const readyAt = Number(button.dataset.evadeReadyAt || 0);
+  if (now < readyAt || button.dataset.evadeComplete === "true") return;
+
+  const rect = button.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const pointerX = event?.clientX ?? centerX + (Math.random() - 0.5) * 120;
+  const pointerY = event?.clientY ?? centerY + (Math.random() - 0.5) * 120;
+  const baseAngle = Math.atan2(centerY - pointerY, centerX - pointerX);
+  const angle = baseAngle + (Math.random() - 0.5) * 1.25;
+  const jump = 74 + Math.random() * 72;
+  const currentX = Number(button.dataset.evadeX || 0);
+  const currentY = Number(button.dataset.evadeY || 0);
+  let nextX = currentX + Math.cos(angle) * jump;
+  let nextY = currentY + Math.sin(angle) * jump;
+
+  const nextCenterX = centerX + (nextX - currentX);
+  const nextCenterY = centerY + (nextY - currentY);
+  const margin = 38;
+
+  if (nextCenterX < margin) nextX += margin - nextCenterX;
+  if (nextCenterX > window.innerWidth - margin) nextX -= nextCenterX - (window.innerWidth - margin);
+  if (nextCenterY < margin) nextY += margin - nextCenterY;
+  if (nextCenterY > window.innerHeight - margin) nextY -= nextCenterY - (window.innerHeight - margin);
+
+  const attempts = Math.min(10, Number(button.dataset.evadeCount || 0) + 1);
+  button.dataset.evadeCount = String(attempts);
+  button.dataset.evadeX = String(Math.round(nextX));
+  button.dataset.evadeY = String(Math.round(nextY));
+  button.dataset.evadeReadyAt = String(now + 260);
+  button.style.setProperty("--evade-x", `${Math.round(nextX)}px`);
+  button.style.setProperty("--evade-y", `${Math.round(nextY)}px`);
+
+  if (attempts >= 10) {
+    button.dataset.evadeComplete = "true";
+    button.setAttribute("aria-disabled", "false");
   }
 }
 

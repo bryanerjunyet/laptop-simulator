@@ -16,7 +16,8 @@ const mailShortcut = document.getElementById("mailShortcut");
 const personas = {
   shanhong: { initial: "单", name: "单鸿", email: "shanhong@wusha-studio.com", color: "#7b4a28", label: "单鸿 Chrome profile" },
   ahe: { initial: "禾", name: "阿禾", email: "ahe@oldstudio.mail", color: "#3d697c", label: "阿禾 Chrome profile" },
-  guang: { initial: "追", name: "追光", email: "zhuiguang@mail.com", color: "#9b4454", label: "追光 Chrome profile" }
+  guang: { initial: "追", name: "追光", email: "zhuiguang@mail.com", color: "#9b4454", label: "追光 Chrome profile" },
+  qiongqi: { initial: "穷", name: "穷奇", email: "qiongqi@archive.local", color: "#c39a32", label: "穷奇 Chrome profile" }
 };
 const currentPersona = personas[new URLSearchParams(window.location.search).get("laptop")] || personas.shanhong;
 

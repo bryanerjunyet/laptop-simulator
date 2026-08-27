@@ -144,7 +144,7 @@ input[type="search"]::-webkit-search-cancel-button {
   place-items: center;
   border: 0;
   border-radius: 50%;
-  background: #3d697c;
+  background: var(--profile-color, #3d697c);
   color: #fff;
   cursor: pointer;
   font-weight: 700;
