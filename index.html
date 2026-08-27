@@ -35,6 +35,15 @@
       <time id="loginBigTime">--:--</time>
     </section>
 
+    <div class="qiongqi-code-rain" aria-hidden="true">
+      <span>41789495164178949516</span>
+      <span>23515656952351565695</span>
+      <span>22974651352297465135</span>
+      <span>66648986526664898652</span>
+      <span>65847895266584789526</span>
+      <span>54896486545489648654</span>
+    </div>
+
     <section class="login-panel account-login">
       <div class="laptop-options" aria-label="Persona laptops">
         <button class="laptop-card account-card" data-laptop="guang">
@@ -51,6 +60,11 @@
           <span class="laptop-avatar">禾</span>
           <span class="laptop-name">阿禾</span>
         </button>
+
+        <button class="laptop-card account-card" data-laptop="qiongqi">
+          <span class="laptop-avatar">穷</span>
+          <span class="laptop-name">穷奇</span>
+        </button>
       </div>
 
       <form class="password-panel is-hidden" id="passwordPanel" autocomplete="off">
@@ -58,7 +72,13 @@
         <strong id="passwordName">Account</strong>
         <div class="password-row">
           <input id="laptopPassword" type="password" inputmode="numeric" aria-label="Password" placeholder="输入密码">
-          <button type="submit">→</button>
+          <button class="toggle-password" id="toggleLaptopPassword" type="button" aria-label="Show password" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z"></path>
+              <circle cx="12" cy="12" r="2.6"></circle>
+            </svg>
+          </button>
+          <button class="submit-password" type="submit">→</button>
         </div>
         <p class="password-error" id="passwordError" aria-live="polite"></p>
       </form>
@@ -101,6 +121,16 @@
           <button class="traffic-btn zoom" id="maximizeWindow" aria-label="Maximize"></button>
         </div>
         <div class="window-title" id="windowTitle">Application</div>
+        <button class="window-translate is-hidden" id="translateWindow" type="button" aria-label="Translate window to English" title="Translate to English">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 5h9"></path>
+            <path d="M9 3v2"></path>
+            <path d="M10.7 5c-.8 3-2.6 5.8-5.2 8"></path>
+            <path d="M5.2 8.4c1.2 1.9 2.8 3.4 4.8 4.6"></path>
+            <path d="M13 21l4.5-10 4.5 10"></path>
+            <path d="M14.3 18h6.4"></path>
+          </svg>
+        </button>
       </header>
       <iframe class="app-frame" id="appFrame" title="Application window"></iframe>
       <div class="resize-handle resize-handle-n" data-resize-handle="n" aria-hidden="true"></div>
@@ -121,6 +151,16 @@
           <button class="traffic-btn zoom" id="maximizeDetailWindow" aria-label="Maximize"></button>
         </div>
         <div class="window-title" id="detailWindowTitle">Details</div>
+        <button class="window-translate is-hidden" id="translateDetailWindow" type="button" aria-label="Translate window to English" title="Translate to English">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 5h9"></path>
+            <path d="M9 3v2"></path>
+            <path d="M10.7 5c-.8 3-2.6 5.8-5.2 8"></path>
+            <path d="M5.2 8.4c1.2 1.9 2.8 3.4 4.8 4.6"></path>
+            <path d="M13 21l4.5-10 4.5 10"></path>
+            <path d="M14.3 18h6.4"></path>
+          </svg>
+        </button>
       </header>
       <iframe class="app-frame" id="detailFrame" title="Detail window"></iframe>
       <div class="resize-handle resize-handle-n" data-resize-handle="n" aria-hidden="true"></div>

@@ -100,6 +100,28 @@ https://laptop-simulator.vercel.app/
 
 Because the app is static, deployment should serve the repository root with `index.html` as the entry page.
 
+## Translation API
+
+The translate button uses the Vercel serverless endpoint at `api/translate.js`.
+
+For AI translation on the hosted site, add this environment variable in Vercel:
+
+```text
+GEMINI_API_KEY=<your Gemini API key>
+```
+
+Optional:
+
+```text
+GEMINI_MODEL=gemini-3.7-flash
+```
+
+If the API key is not configured, the endpoint falls back to an online translation service. If the endpoint is unavailable during local static-server development, the browser also tries the online translation service directly before using the small built-in translation map for common project terms.
+
+The translator protects story-specific proper nouns such as character names, organization names, venue names, and artwork titles by converting them to fixed Hanyu Pinyin or romanized names instead of translating them by literal meaning.
+
+Clicking the translate button once translates the whole application document, including hidden sections that may be opened later. Newly rendered text is translated automatically while translation mode is active. Clicking the same button again restores the original Chinese text. Account/profile menus are excluded from translation.
+
 ## Notes For Future Expansion
 
 - Add new persona laptops by registering a new account in `scripts/desktop.js`.

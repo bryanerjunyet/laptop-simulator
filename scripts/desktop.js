@@ -11,7 +11,7 @@ const laptops = {
     password: null,
     apps: {
       instagram: { title: "Instagram", url: "apps/instagram.html", icon: "assets/icons/instagram.svg" },
-      gmail: { title: "Gmail", url: "apps/gmail.html", icon: "assets/icons/gmail.png" },
+      gmail: { title: "Gmail", url: "apps/gmail.html", icon: "assets/icons/gmail.png", translatable: true },
       whatsapp: { title: "WhatsApp", url: "apps/whatsapp.html", icon: "assets/icons/whatsapp.svg" },
       bank: { title: "Bank", url: "apps/bank.html", icon: "assets/icons/bank.svg" },
       notes: { title: "Notes", url: "apps/notes.html", icon: "assets/icons/notes.svg" }
@@ -28,11 +28,11 @@ const laptops = {
     note: "",
     passwordHash: "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
     apps: {
-      gmail: { title: "Gmail", url: "apps/shanhong-gmail.html", icon: "assets/icons/gmail.png" },
-      chrome: { title: "Chrome", url: "apps/mock-chrome.html?laptop=shanhong", icon: "assets/icons/chrome.png" },
+      gmail: { title: "Gmail", url: "apps/shanhong-gmail.html", icon: "assets/icons/gmail.png", translatable: true },
+      chrome: { title: "Chrome", url: "apps/mock-chrome.html?laptop=shanhong", icon: "assets/icons/chrome.png", translatable: true },
       calendar: { title: "Calendar", url: "apps/calendar.html", iconType: "calendar" },
-      finder: { title: "Finder", url: "apps/shanhong-finder.html", icon: "assets/icons/finder.png" },
-      gallery: { title: "Gallery", url: "apps/empty-gallery.html", icon: "assets/icons/gallery-photos.svg" },
+      finder: { title: "Finder", url: "apps/shanhong-finder.html", icon: "assets/icons/finder.png", translatable: true },
+      gallery: { title: "Gallery", url: "apps/empty-gallery.html", icon: "assets/icons/gallery-photos.svg", translatable: true },
       notes: { title: "Notes", url: "apps/mock-notes.html?laptop=shanhong", icon: "assets/icons/notes.svg" }
     }
   },
@@ -47,14 +47,26 @@ const laptops = {
     note: "",
     passwordHash: "b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0",
     apps: {
-      chrome: { title: "Chrome", url: "apps/ahe-chrome.html", icon: "assets/icons/chrome.png" },
-      photoshop: { title: "Photoshop", url: "apps/ahe-photoshop.html", icon: "assets/icons/adobe-photoshop.svg" },
+      chrome: { title: "Chrome", url: "apps/ahe-chrome.html", icon: "assets/icons/chrome.png", translatable: true },
+      photoshop: { title: "Photoshop", url: "apps/ahe-photoshop.html", icon: "assets/icons/adobe-photoshop.svg", translatable: true },
       calendar: { title: "Calendar", url: "apps/calendar.html", iconType: "calendar" },
-      finder: { title: "Finder", url: "apps/ahe-finder.html", icon: "assets/icons/finder.png" },
-      gallery: { title: "Gallery", url: "apps/ahe-gallery.html", icon: "assets/icons/gallery-photos.svg" },
+      finder: { title: "Finder", url: "apps/ahe-finder.html", icon: "assets/icons/finder.png", translatable: true },
+      gallery: { title: "Gallery", url: "apps/ahe-gallery.html", icon: "assets/icons/gallery-photos.svg", translatable: true },
       notes: { title: "Notes", url: "apps/mock-notes.html?laptop=ahe", icon: "assets/icons/notes.svg" },
-      gmail: { title: "Gmail", url: "apps/empty-gmail.html", icon: "assets/icons/gmail.png" }
+      gmail: { title: "Gmail", url: "apps/empty-gmail.html", icon: "assets/icons/gmail.png", translatable: true }
     }
+  },
+  qiongqi: {
+    name: "穷奇的电脑",
+    accountName: "穷奇",
+    avatar: "穷",
+    className: "laptop-qiongqi",
+    iconLayout: "layout-qiongqi",
+    wallpaperDir: "assets/images/wallpapers/qiongqi/",
+    wallpaper: "assets/images/wallpapers/qiongqi/qiongqi-wallpaper.jpg",
+    note: "",
+    passwordHash: "40919b185db059d80fd819acfcdc505ac02fa14b381781335ed8c5be0f5b776a",
+    apps: {}
   }
 };
 
@@ -65,6 +77,7 @@ const passwordPanel = document.getElementById("passwordPanel");
 const passwordAvatar = document.getElementById("passwordAvatar");
 const passwordName = document.getElementById("passwordName");
 const passwordInput = document.getElementById("laptopPassword");
+const toggleLaptopPassword = document.getElementById("toggleLaptopPassword");
 const passwordError = document.getElementById("passwordError");
 const desktopIcons = document.getElementById("desktopIcons");
 const dock = document.getElementById("dock");
@@ -77,6 +90,8 @@ const detailFrame = document.getElementById("detailFrame");
 const detailWindowBar = document.getElementById("detailWindowBar");
 const windowTitle = document.getElementById("windowTitle");
 const detailWindowTitle = document.getElementById("detailWindowTitle");
+const translateWindowButton = document.getElementById("translateWindow");
+const translateDetailWindowButton = document.getElementById("translateDetailWindow");
 const activeAppName = document.getElementById("activeAppName");
 const activeLaptopName = document.getElementById("activeLaptopName");
 const clock = document.getElementById("clock");
@@ -109,6 +124,95 @@ let securityAction = null;
 const resizeMargin = 10;
 const minWindowWidth = 390;
 const minWindowHeight = 310;
+const chinesePattern = /[\u3400-\u9fff]/;
+const translatableTextAttributes = ["placeholder", "title", "aria-label", "alt", "value"];
+const ignoredTranslationTags = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "CODE", "PRE"]);
+const ignoredTranslationSelector = [
+  "[data-no-translate]",
+  ".gmail-profile",
+  ".gmail-profile-menu",
+  ".profile-button",
+  ".profile-menu",
+  ".ps-profile",
+  ".ps-profile-menu"
+].join(",");
+const translationStates = new WeakMap();
+const translationCache = new Map();
+const properNounGlossary = [
+  ["《雨后的第七盏灯》", "Yu Hou De Di Qi Zhan Deng"],
+  ["雨后的第七盏灯", "Yu Hou De Di Qi Zhan Deng"],
+  ["《边界之外》", "Bian Jie Zhi Wai"],
+  ["边界之外", "Bian Jie Zhi Wai"],
+  ["《没人看见的东西》", "Mei Ren Kan Jian De Dong Xi"],
+  ["没人看见的东西", "Mei Ren Kan Jian De Dong Xi"],
+  ["五煞文创", "Wu Sha Wen Chuang"],
+  ["城市艺文中心", "Chengshi Yiwen Zhongxin"],
+  ["城市时报", "Chengshi Shibao"],
+  ["柳文清工作室", "Liu Wenqing Studio"],
+  ["林若笙工作室", "Lin Ruosheng Studio"],
+  ["白箱空间", "Bai Xiang Kong Jian"],
+  ["南岸装裱", "Nan'an Zhuangbiao"],
+  ["蓝桥印务", "Lanqiao Yinwu"],
+  ["艺仓物流", "Yicang Wuliu"],
+  ["追光", "Zhuiguang"],
+  ["单鸿", "Shan Hong"],
+  ["阿禾", "Ah He"],
+  ["穷奇", "Qiong Qi"],
+  ["柳文清", "Liu Wenqing"],
+  ["王充奇", "Wang Chongqi"],
+  ["林若笙", "Lin Ruosheng"],
+  ["陶景然", "Tao Jingran"],
+  ["文清", "Wenqing"]
+];
+const fallbackTranslations = new Map([
+  ...properNounGlossary,
+  ["输入密码", "Enter password"],
+  ["密码错误", "Incorrect password"],
+  ["收件箱", "Inbox"],
+  ["重要", "Important"],
+  ["已发送", "Sent"],
+  ["垃圾箱", "Trash"],
+  ["草稿", "Drafts"],
+  ["写信", "Compose"],
+  ["搜索邮件", "Search mail"],
+  ["发件人", "From"],
+  ["收件人", "To"],
+  ["抄送", "cc"],
+  ["主题", "Subject"],
+  ["发送", "Send"],
+  ["返回", "Back"],
+  ["图片预览", "Image preview"],
+  ["画廊", "Gallery"],
+  ["画家", "artist"],
+  ["作品", "artwork"],
+  ["展览", "exhibition"],
+  ["草稿", "draft"],
+  ["记录", "records"],
+  ["署名", "attribution"],
+  ["媒体", "media"],
+  ["证据", "evidence"],
+  ["对比图", "comparison image"],
+  ["不知名画手", "unknown artist"],
+  ["疑似抄袭", "suspected plagiarism"],
+  ["详细信息", "Details"],
+  ["常规", "General"],
+  ["以前的版本", "Previous Versions"],
+  ["版本历史记录", "Version History"],
+  ["打开方式", "Open with"],
+  ["位置", "Location"],
+  ["大小", "Size"],
+  ["创建时间", "Created"],
+  ["修改时间", "Modified"],
+  ["访问时间", "Accessed"],
+  ["作者", "Author"],
+  ["城市时报", "City Times"],
+  ["热门评论", "Popular comments"],
+  ["收藏", "Saved"],
+  ["评论", "Comments"],
+  ["转发", "Repost"],
+  ["点赞", "Like"],
+  ["登录", "Log in"]
+]);
 
 document.querySelectorAll("[data-laptop]").forEach((button) => {
   button.addEventListener("click", () => selectLaptop(button.dataset.laptop));
@@ -117,6 +221,13 @@ document.querySelectorAll("[data-laptop]").forEach((button) => {
 passwordPanel.addEventListener("submit", (event) => {
   event.preventDefault();
   unlockPendingLaptop();
+});
+
+toggleLaptopPassword.addEventListener("click", () => {
+  const shouldShow = passwordInput.type === "password";
+  passwordInput.type = shouldShow ? "text" : "password";
+  toggleLaptopPassword.setAttribute("aria-pressed", String(shouldShow));
+  toggleLaptopPassword.setAttribute("aria-label", shouldShow ? "Hide password" : "Show password");
 });
 
 document.getElementById("switchLaptop").addEventListener("click", () => {
@@ -193,6 +304,14 @@ document.getElementById("minimizeDetailWindow").addEventListener("click", () => 
 
 document.getElementById("maximizeDetailWindow").addEventListener("click", () => {
   toggleMaximizeDetailWindow();
+});
+
+translateWindowButton.addEventListener("click", () => {
+  translateFrameToEnglish(appFrame, translateWindowButton);
+});
+
+translateDetailWindowButton.addEventListener("click", () => {
+  translateFrameToEnglish(detailFrame, translateDetailWindowButton);
 });
 
 appWindow.addEventListener("pointermove", updateResizeCursor);
@@ -552,8 +671,10 @@ function scheduleDockHide() {
 }
 
 function closeAppWindow() {
+  clearTranslationState(appFrame);
   appWindow.classList.add("is-hidden");
   appWindow.classList.remove("is-minimized", "is-maximized");
+  resetTranslateButton(translateWindowButton, true);
   updateFullscreenWindowState();
   setActiveAppName("Finder");
 }
@@ -591,7 +712,9 @@ function openDetailWindow(detailData) {
   detailWindow.classList.remove("is-hidden", "is-minimized");
   detailWindow.classList.remove("is-maximized");
   detailWindowTitle.textContent = title;
+  clearTranslationState(detailFrame);
   detailFrame.src = url;
+  resetTranslateButton(translateDetailWindowButton, false);
   detailRestoreRect = null;
 
   if (!detailWindow.style.left) {
@@ -633,11 +756,500 @@ function toggleMaximizeDetailWindow() {
 }
 
 function resetDetailWindow() {
+  clearTranslationState(detailFrame);
   detailWindow.classList.add("is-hidden");
   detailWindow.classList.remove("is-minimized", "is-maximized");
   detailFrame.removeAttribute("src");
   detailWindowTitle.textContent = "Details";
+  resetTranslateButton(translateDetailWindowButton, true);
   detailRestoreRect = null;
+}
+
+function resetTranslateButton(button, shouldHide) {
+  button.classList.toggle("is-hidden", shouldHide);
+  button.classList.remove("is-busy", "is-translated");
+  button.disabled = false;
+  button.title = "Translate to English";
+}
+
+async function translateFrameToEnglish(frame, button) {
+  if (button.disabled || button.classList.contains("is-hidden")) return;
+
+  const frameDocument = getFrameDocument(frame);
+  if (!frameDocument?.body) {
+    showTranslationStatus(button, "Translation unavailable");
+    return;
+  }
+
+  const existingState = translationStates.get(frameDocument);
+  if (existingState?.isTranslated) {
+    restoreOriginalLanguage(frameDocument, button);
+    return;
+  }
+
+  const state = createTranslationState(frameDocument);
+  translationStates.set(frameDocument, state);
+  const entries = collectTranslationEntries(frameDocument, state);
+  if (!entries.length) {
+    showTranslationStatus(button, "No Chinese text found");
+    return;
+  }
+
+  button.disabled = true;
+  button.classList.add("is-busy");
+  button.title = "Translating...";
+  const progress = showTranslationProgress("Translating", entries.length);
+
+  try {
+    await translateEntries(entries, state, progress);
+    observeTranslatedMutations(frameDocument, state, button);
+    state.isTranslated = true;
+    button.classList.add("is-translated");
+    button.title = "Show original Chinese";
+  } catch {
+    showTranslationStatus(button, "Translation failed");
+  } finally {
+    hideTranslationProgress(progress);
+    button.classList.remove("is-busy");
+    button.disabled = false;
+  }
+}
+
+function getFrameDocument(frame) {
+  try {
+    return frame.contentDocument;
+  } catch {
+    return null;
+  }
+}
+
+function createTranslationState(frameDocument) {
+  return {
+    frameDocument,
+    isTranslated: false,
+    originalTextNodes: new WeakMap(),
+    originalAttributes: new WeakMap(),
+    restorers: [],
+    observer: null,
+    pendingMutationTimer: null,
+    translatingMutations: false
+  };
+}
+
+function collectTranslationEntries(frameDocument, state) {
+  const entries = [];
+  const walker = frameDocument.createTreeWalker(
+    frameDocument.body,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent || ignoredTranslationTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+        if (parent.closest(ignoredTranslationSelector)) return NodeFilter.FILTER_REJECT;
+        if (state?.originalTextNodes.has(node)) return NodeFilter.FILTER_REJECT;
+        return chinesePattern.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    }
+  );
+
+  let textNode = walker.nextNode();
+  while (textNode) {
+    const text = normalizeTranslationText(textNode.nodeValue);
+    if (text) {
+      entries.push({ type: "text", node: textNode, text });
+    }
+    textNode = walker.nextNode();
+  }
+
+  frameDocument.querySelectorAll("*").forEach((element) => {
+    if (ignoredTranslationTags.has(element.tagName) || element.closest(ignoredTranslationSelector)) return;
+    translatableTextAttributes.forEach((attribute) => {
+      const value = getTranslatableAttributeValue(element, attribute);
+      if (value && chinesePattern.test(value) && !hasStoredAttributeOriginal(state, element, attribute)) {
+        entries.push({ type: "attribute", element, attribute, text: normalizeTranslationText(value) });
+      }
+    });
+  });
+
+  return entries;
+}
+
+function getTranslatableAttributeValue(element, attribute) {
+  if (attribute === "value" && "value" in element) {
+    return element.value;
+  }
+
+  return element.getAttribute(attribute);
+}
+
+function normalizeTranslationText(text) {
+  return text.replace(/\s+/g, " ").trim();
+}
+
+async function translateEntries(entries, state, progress = null) {
+  const uniqueTexts = [...new Set(entries.map((entry) => entry.text))];
+  const translationMap = await translateTexts(uniqueTexts, (completed, total) => {
+    updateTranslationProgress(progress, completed, total);
+  });
+
+  entries.forEach((entry) => {
+    applyTranslation(entry, translationMap.get(entry.text), state);
+  });
+}
+
+async function translateTexts(texts, onProgress = null) {
+  const protectedTexts = texts.map(protectProperNouns);
+  const translationMap = new Map();
+  const uncachedTexts = [];
+
+  protectedTexts.forEach((text, index) => {
+    const originalText = texts[index];
+    if (translationCache.has(text)) {
+      translationMap.set(originalText, translationCache.get(text));
+      onProgress?.(translationMap.size, texts.length);
+      return;
+    }
+
+    uncachedTexts.push({ originalText, protectedText: text });
+  });
+
+  if (!uncachedTexts.length) {
+    return translationMap;
+  }
+
+  try {
+    const translations = await translateTextsWithApi(
+      uncachedTexts.map((item) => item.protectedText),
+      (completed, total) => onProgress?.(translationMap.size + completed, texts.length, total)
+    );
+    uncachedTexts.forEach((item, index) => {
+      const translated = translations[index] || item.protectedText;
+      translationCache.set(item.protectedText, translated);
+      translationMap.set(item.originalText, translated);
+    });
+  } catch {
+    try {
+      const translations = await translateTextsWithPublicTranslator(
+        uncachedTexts.map((item) => item.protectedText),
+        (completed) => onProgress?.(translationMap.size + completed, texts.length)
+      );
+      uncachedTexts.forEach((item, index) => {
+        const translated = translations[index] || item.protectedText;
+        translationCache.set(item.protectedText, translated);
+        translationMap.set(item.originalText, translated);
+      });
+    } catch {
+      uncachedTexts.forEach((item) => {
+        const translated = translateTextWithFallback(item.protectedText);
+        translationCache.set(item.protectedText, translated);
+        translationMap.set(item.originalText, translated);
+      });
+    }
+  }
+
+  onProgress?.(texts.length, texts.length);
+  return translationMap;
+}
+
+async function translateTextsWithApi(texts, onProgress = null) {
+  const translations = [];
+  const batchSize = 80;
+
+  for (let index = 0; index < texts.length; index += batchSize) {
+    const batch = texts.slice(index, index + batchSize);
+    const response = await fetch("/api/translate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texts: batch })
+    });
+
+    if (!response.ok) {
+      throw new Error("Translation API unavailable");
+    }
+
+    const payload = await response.json();
+    if (!Array.isArray(payload.translations) || payload.translations.length !== batch.length) {
+      throw new Error("Unexpected translation response");
+    }
+
+    translations.push(...payload.translations);
+    onProgress?.(translations.length, texts.length);
+  }
+
+  return translations;
+}
+
+async function translateTextsWithPublicTranslator(texts, onProgress = null) {
+  let completed = 0;
+  return await mapWithConcurrency(texts, 6, async (text) => {
+    const translated = await translateOneWithPublicTranslator(text);
+    completed += 1;
+    onProgress?.(completed, texts.length);
+    return translated;
+  });
+}
+
+async function translateOneWithPublicTranslator(text) {
+  const chunks = splitTextForTranslation(text);
+  const translatedChunks = [];
+
+  for (const chunk of chunks) {
+    const url = new URL("https://api.mymemory.translated.net/get");
+    url.searchParams.set("q", chunk);
+    url.searchParams.set("langpair", "zh-CN|en");
+
+    const response = await fetch(url.href);
+    if (!response.ok) {
+      throw new Error("Public translation service unavailable");
+    }
+
+    const payload = await response.json();
+    if (payload?.responseStatus !== 200 && payload?.responseStatus !== "200") {
+      throw new Error(payload?.responseDetails || "Public translation service unavailable");
+    }
+
+    translatedChunks.push(payload?.responseData?.translatedText || chunk);
+  }
+
+  return translatedChunks.join(" ").replace(/\s+([,.;:!?])/g, "$1").trim() || text;
+}
+
+function splitTextForTranslation(text) {
+  if (text.length <= 420) return [text];
+
+  const chunks = [];
+  let current = "";
+  const parts = text.split(/(?<=[。！？!?；;，,])\s*/u);
+
+  parts.forEach((part) => {
+    if (!part) return;
+
+    if ((current + part).length <= 420) {
+      current += part;
+      return;
+    }
+
+    if (current) {
+      chunks.push(current);
+    }
+
+    if (part.length <= 420) {
+      current = part;
+      return;
+    }
+
+    for (let index = 0; index < part.length; index += 420) {
+      chunks.push(part.slice(index, index + 420));
+    }
+    current = "";
+  });
+
+  if (current) {
+    chunks.push(current);
+  }
+
+  return chunks;
+}
+
+function translateTextWithFallback(text) {
+  if (fallbackTranslations.has(text)) return fallbackTranslations.get(text);
+
+  let translated = text;
+  [...fallbackTranslations.entries()]
+    .sort((first, second) => second[0].length - first[0].length)
+    .forEach(([source, target]) => {
+      translated = translated.replaceAll(source, target);
+    });
+
+  return translated;
+}
+
+async function mapWithConcurrency(items, limit, mapper) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+
+  async function worker() {
+    while (nextIndex < items.length) {
+      const currentIndex = nextIndex;
+      nextIndex += 1;
+      results[currentIndex] = await mapper(items[currentIndex], currentIndex);
+    }
+  }
+
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return results;
+}
+
+function protectProperNouns(text) {
+  let protectedText = text;
+  getSortedGlossary().forEach(([source, target]) => {
+    protectedText = protectedText.replaceAll(source, target);
+  });
+  return protectedText;
+}
+
+function getSortedGlossary() {
+  return [...properNounGlossary].sort((first, second) => second[0].length - first[0].length);
+}
+
+function applyTranslation(entry, translatedText, state) {
+  if (!translatedText || translatedText === entry.text) return;
+
+  if (entry.type === "text") {
+    const original = entry.node.nodeValue;
+    if (!state.originalTextNodes.has(entry.node)) {
+      state.originalTextNodes.set(entry.node, original);
+      state.restorers.push(() => {
+        entry.node.nodeValue = original;
+      });
+    }
+    const leadingSpace = original.match(/^\s*/)?.[0] || "";
+    const trailingSpace = original.match(/\s*$/)?.[0] || "";
+    entry.node.nodeValue = `${leadingSpace}${translatedText}${trailingSpace}`;
+    return;
+  }
+
+  storeAttributeOriginal(state, entry.element, entry.attribute);
+  if (entry.attribute === "value" && "value" in entry.element) {
+    entry.element.value = translatedText;
+    return;
+  }
+
+  entry.element.setAttribute(entry.attribute, translatedText);
+}
+
+function storeAttributeOriginal(state, element, attribute) {
+  let attributes = state.originalAttributes.get(element);
+  if (!attributes) {
+    attributes = new Map();
+    state.originalAttributes.set(element, attributes);
+  }
+
+  if (attributes.has(attribute)) return;
+
+  const original = getTranslatableAttributeValue(element, attribute);
+  attributes.set(attribute, original);
+  state.restorers.push(() => {
+    if (attribute === "value" && "value" in element) {
+      element.value = original || "";
+      return;
+    }
+
+    if (original === null) {
+      element.removeAttribute(attribute);
+      return;
+    }
+
+    element.setAttribute(attribute, original);
+  });
+}
+
+function hasStoredAttributeOriginal(state, element, attribute) {
+  return state?.originalAttributes.get(element)?.has(attribute) || false;
+}
+
+function observeTranslatedMutations(frameDocument, state, button) {
+  state.observer?.disconnect();
+  state.observer = new MutationObserver(() => {
+    if (!state.isTranslated || state.translatingMutations) return;
+
+    window.clearTimeout(state.pendingMutationTimer);
+    state.pendingMutationTimer = window.setTimeout(async () => {
+      const entries = collectTranslationEntries(frameDocument, state);
+      if (!entries.length) return;
+
+      state.translatingMutations = true;
+      button.classList.add("is-busy");
+      try {
+        await translateEntries(entries, state);
+      } finally {
+        button.classList.remove("is-busy");
+        state.translatingMutations = false;
+      }
+    }, 120);
+  });
+
+  state.observer.observe(frameDocument.body, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+    attributes: true,
+    attributeFilter: translatableTextAttributes
+  });
+}
+
+function restoreOriginalLanguage(frameDocument, button) {
+  const state = translationStates.get(frameDocument);
+  if (!state) return;
+
+  state.observer?.disconnect();
+  window.clearTimeout(state.pendingMutationTimer);
+  [...state.restorers].reverse().forEach((restore) => restore());
+  translationStates.delete(frameDocument);
+  button.classList.remove("is-busy", "is-translated");
+  button.disabled = false;
+  button.title = "Translate to English";
+}
+
+function clearTranslationState(frame) {
+  const frameDocument = getFrameDocument(frame);
+  const state = frameDocument ? translationStates.get(frameDocument) : null;
+  state?.observer?.disconnect();
+  if (state?.pendingMutationTimer) {
+    window.clearTimeout(state.pendingMutationTimer);
+  }
+  if (frameDocument) {
+    translationStates.delete(frameDocument);
+  }
+}
+
+function showTranslationProgress(label, total) {
+  const startedAt = Date.now();
+  const progress = document.createElement("div");
+  progress.className = "translation-progress";
+  progress.innerHTML = `
+    <div class="translation-progress-card" role="status" aria-live="polite">
+      <span class="translation-spinner" aria-hidden="true"></span>
+      <strong>${label}</strong>
+      <span class="translation-progress-count">0 / ${total}</span>
+      <time>0.0s</time>
+    </div>
+  `;
+  desktopScreen.append(progress);
+
+  const timer = window.setInterval(() => {
+    const elapsed = ((Date.now() - startedAt) / 1000).toFixed(1);
+    progress.querySelector("time").textContent = `${elapsed}s`;
+  }, 100);
+
+  progress.dataset.timer = String(timer);
+  return progress;
+}
+
+function updateTranslationProgress(progress, completed, total) {
+  if (!progress) return;
+
+  const count = progress.querySelector(".translation-progress-count");
+  if (count) {
+    count.textContent = `${Math.min(completed, total)} / ${total}`;
+  }
+}
+
+function hideTranslationProgress(progress) {
+  if (!progress) return;
+
+  window.clearInterval(Number(progress.dataset.timer));
+  progress.classList.add("is-done");
+  window.setTimeout(() => progress.remove(), 180);
+}
+
+function showTranslationStatus(button, message) {
+  button.title = message;
+  window.setTimeout(() => {
+    if (!button.classList.contains("is-hidden")) {
+      button.title = "Translate to English";
+    }
+  }, 1800);
 }
 
 function bindAppFrameShortcuts() {
@@ -659,11 +1271,13 @@ function openApp(appName) {
   const app = activeApps[appName];
   if (!app) return;
 
+  clearTranslationState(appFrame);
   appWindow.classList.remove("is-hidden", "is-minimized");
   updateFullscreenWindowState();
   windowTitle.textContent = app.title;
   setActiveAppName(app.title);
   appFrame.src = app.url;
+  resetTranslateButton(translateWindowButton, !app.translatable);
 
   if (!appWindow.style.left) {
     appWindow.style.left = "210px";
@@ -687,12 +1301,19 @@ function showPassword(laptopId) {
   const laptop = laptops[laptopId];
   pendingLaptopId = laptopId;
   loginScreen.classList.add("is-password-mode");
+  loginScreen.classList.remove("login-qiongqi");
+  if (laptopId === "qiongqi") {
+    loginScreen.classList.add("login-qiongqi");
+  }
   accountLogin.classList.add("is-password-mode");
   passwordPanel.classList.remove("is-hidden");
   passwordPanel.dataset.laptop = laptopId;
   passwordAvatar.textContent = laptop.avatar;
   passwordName.textContent = laptop.accountName;
   passwordInput.value = "";
+  passwordInput.type = "password";
+  toggleLaptopPassword.setAttribute("aria-pressed", "false");
+  toggleLaptopPassword.setAttribute("aria-label", "Show password");
   passwordError.textContent = "";
   applyLoginWallpaper(laptopId, laptop);
   window.setTimeout(() => passwordInput.focus(), 80);
@@ -701,11 +1322,15 @@ function showPassword(laptopId) {
 function showAccounts() {
   pendingLaptopId = null;
   loginScreen.classList.remove("is-password-mode");
+  loginScreen.classList.remove("login-qiongqi");
   applyDefaultLoginWallpaper();
   accountLogin.classList.remove("is-password-mode");
   passwordPanel.classList.add("is-hidden");
   passwordPanel.removeAttribute("data-laptop");
   passwordInput.value = "";
+  passwordInput.type = "password";
+  toggleLaptopPassword.setAttribute("aria-pressed", "false");
+  toggleLaptopPassword.setAttribute("aria-label", "Show password");
   passwordError.textContent = "";
 }
 
@@ -829,7 +1454,7 @@ function openLaptop(laptopId) {
   showAccounts();
   loginScreen.classList.add("is-hidden");
   desktopScreen.classList.remove("is-hidden");
-  desktopScreen.classList.remove("laptop-shanhong", "laptop-ahe");
+  desktopScreen.classList.remove("laptop-shanhong", "laptop-ahe", "laptop-qiongqi");
   if (laptop.className) {
     desktopScreen.classList.add(laptop.className);
   }
