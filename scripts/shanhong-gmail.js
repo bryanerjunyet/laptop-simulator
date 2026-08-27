@@ -526,21 +526,12 @@ function openAttachment(attachmentName) {
   const image = attachmentImages[attachmentName];
   if (!image) return;
 
-  reader.innerHTML = `
-    <button class="back-to-mail" type="button" id="backToMail">Back</button>
-    <article class="attachment-viewer">
-      <header>
-        <h1>${attachmentName}</h1>
-        <p>Image preview</p>
-      </header>
-      <img src="${image}" alt="${attachmentName}">
-    </article>
-  `;
-
-  document.getElementById("backToMail").addEventListener("click", () => {
-    const activeRow = list.querySelector(".mail-row.active");
-    renderMail(activeVisibleMails[Number(activeRow?.dataset.index || 0)] || activeVisibleMails[0]);
-  });
+  const url = `apps/image-preview.html?src=${encodeURIComponent(image)}&title=${encodeURIComponent(attachmentName)}`;
+  window.parent.postMessage({
+    type: "open-floating-window",
+    title: attachmentName,
+    url
+  }, window.location.origin);
 }
 
 openFolder("inbox");

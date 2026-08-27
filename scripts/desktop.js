@@ -67,7 +67,7 @@ const laptops = {
     note: "",
     passwordHash: "c7367277e3a4a32961bd050c6c1bef7f7f94c4c8ddc064f3839ab786f1bdbebb",
     apps: {
-      records: { title: "穷奇观察记录", url: "apps/qiongqi-records.html", icon: "assets/icons/qiongqi-records.svg", showOnDesktop: false, evadeBeforeOpen: true },
+      records: { title: "穷奇观察记录", url: "apps/qiongqi-records.html", icon: "assets/icons/qiongqi-records.svg", showOnDesktop: false, evadeBeforeOpen: true, translatable: true },
       chrome: { title: "Chrome", url: "apps/mock-chrome.html?laptop=qiongqi", icon: "assets/icons/chrome.png", showOnDesktop: false, translatable: true },
       gmail: { title: "Gmail", url: "apps/empty-gmail.html?laptop=qiongqi", icon: "assets/icons/gmail.png", showOnDesktop: false, translatable: true },
       gallery: { title: "Gallery", url: "apps/empty-gallery.html", icon: "assets/icons/gallery-photos.svg", showOnDesktop: false, translatable: true }
@@ -103,6 +103,7 @@ const clock = document.getElementById("clock");
 const loginClock = document.getElementById("loginClock");
 const loginBigTime = document.getElementById("loginBigTime");
 const loginDate = document.getElementById("loginDate");
+const qiongqiCodeRain = document.getElementById("qiongqiCodeRain");
 const windowBar = document.getElementById("windowBar");
 const fullscreenButton = document.getElementById("fullscreenButton");
 const securityLock = document.getElementById("securityLock");
@@ -130,8 +131,8 @@ const resizeMargin = 10;
 const minWindowWidth = 390;
 const minWindowHeight = 310;
 const chinesePattern = /[\u3400-\u9fff]/;
-const translatableTextAttributes = ["placeholder", "title", "aria-label", "alt", "value"];
-const ignoredTranslationTags = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "CODE", "PRE"]);
+const translatableTextAttributes = ["placeholder", "title", "aria-label", "alt", "value", "data-text"];
+const ignoredTranslationTags = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "CODE"]);
 const ignoredTranslationSelector = [
   "[data-no-translate]",
   ".gmail-profile",
@@ -216,8 +217,29 @@ const fallbackTranslations = new Map([
   ["评论", "Comments"],
   ["转发", "Repost"],
   ["点赞", "Like"],
-  ["登录", "Log in"]
+  ["登录", "Log in"],
+  ["穷奇观察记录", "Qiong Qi Observation Records"],
+  ["穷奇最后记录", "Qiong Qi's Last Record"],
+  ["穷奇最终留言", "Qiong Qi's Final Message"],
+  ["六百一十二年审伪录", "Six Hundred and Twelve Years of Falsehood Records"],
+  ["观察对象", "Observed subject"],
+  ["记录状态", "Record status"],
+  ["异常", "Abnormal"],
+  ["严重异常", "Severe abnormality"],
+  ["极假", "utterly false"],
+  ["暂未发现伪饰", "No disguise has been found yet"]
 ]);
+const qiongqiEvadeLimit = 20;
+const qiongqiCodeKey = 43;
+const qiongqiEncodedColumns = [
+  [31, 26, 28, 19, 18, 31, 18, 30, 26, 29],
+  [25, 24, 30, 26, 30, 29, 30, 29, 18, 30],
+  [29, 29, 29, 31, 19, 18, 19, 29, 30, 25],
+  [29, 30, 19, 31, 28, 19, 18, 30, 25, 29]
+];
+let qiongqiCodeAnimationId = null;
+let qiongqiCodeColumns = [];
+let qiongqiCodeLastFrame = 0;
 
 document.querySelectorAll("[data-laptop]").forEach((button) => {
   button.addEventListener("click", () => selectLaptop(button.dataset.laptop));
@@ -1311,6 +1333,9 @@ function showPassword(laptopId) {
   loginScreen.classList.remove("login-qiongqi");
   if (laptopId === "qiongqi") {
     loginScreen.classList.add("login-qiongqi");
+    startQiongqiCodeRain();
+  } else {
+    stopQiongqiCodeRain();
   }
   accountLogin.classList.add("is-password-mode");
   passwordPanel.classList.remove("is-hidden");
@@ -1328,6 +1353,7 @@ function showPassword(laptopId) {
 
 function showAccounts() {
   pendingLaptopId = null;
+  stopQiongqiCodeRain();
   loginScreen.classList.remove("is-password-mode");
   loginScreen.classList.remove("login-qiongqi");
   applyDefaultLoginWallpaper();
@@ -1339,6 +1365,114 @@ function showAccounts() {
   toggleLaptopPassword.setAttribute("aria-pressed", "false");
   toggleLaptopPassword.setAttribute("aria-label", "Show password");
   passwordError.textContent = "";
+}
+
+function startQiongqiCodeRain() {
+  if (!qiongqiCodeRain) return;
+
+  stopQiongqiCodeRain();
+  setupQiongqiCodeRain();
+  qiongqiCodeLastFrame = performance.now();
+  qiongqiCodeAnimationId = window.requestAnimationFrame(drawQiongqiCodeRain);
+}
+
+function stopQiongqiCodeRain() {
+  if (qiongqiCodeAnimationId) {
+    window.cancelAnimationFrame(qiongqiCodeAnimationId);
+    qiongqiCodeAnimationId = null;
+  }
+
+  const context = qiongqiCodeRain?.getContext("2d");
+  if (context) {
+    context.clearRect(0, 0, qiongqiCodeRain.width, qiongqiCodeRain.height);
+  }
+}
+
+function setupQiongqiCodeRain() {
+  const ratio = window.devicePixelRatio || 1;
+  const rect = qiongqiCodeRain.getBoundingClientRect();
+  qiongqiCodeRain.width = Math.max(1, Math.round(rect.width * ratio));
+  qiongqiCodeRain.height = Math.max(1, Math.round(rect.height * ratio));
+
+  const width = qiongqiCodeRain.width;
+  const height = qiongqiCodeRain.height;
+  const xRatios = [0.42, 0.48, 0.53, 0.59];
+  qiongqiCodeColumns = qiongqiEncodedColumns.map((encoded, index) => {
+    const direction = index % 2 === 0 ? 1 : -1;
+    return {
+      digits: encoded.map((code) => String.fromCharCode(code ^ qiongqiCodeKey)),
+      x: width * xRatios[index],
+      y: direction > 0 ? -height * (0.38 + index * 0.1) : height * (1.1 + index * 0.08),
+      direction,
+      speed: (height * (0.12 + index * 0.012)) / 1000,
+      sway: (index - 1.5) * 8 * ratio,
+      phase: index * 1.7
+    };
+  });
+}
+
+function drawQiongqiCodeRain(timestamp) {
+  if (!qiongqiCodeRain || !loginScreen.classList.contains("login-qiongqi")) {
+    stopQiongqiCodeRain();
+    return;
+  }
+
+  const rect = qiongqiCodeRain.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+  if (qiongqiCodeRain.width !== Math.round(rect.width * ratio) || qiongqiCodeRain.height !== Math.round(rect.height * ratio)) {
+    setupQiongqiCodeRain();
+  }
+
+  const context = qiongqiCodeRain.getContext("2d");
+  const delta = Math.min(40, timestamp - qiongqiCodeLastFrame);
+  qiongqiCodeLastFrame = timestamp;
+  const width = qiongqiCodeRain.width;
+  const height = qiongqiCodeRain.height;
+  const fontSize = Math.max(40 * ratio, Math.min(66 * ratio, width * 0.045));
+  const digitGap = fontSize * 1.12;
+  const time = timestamp / 1000;
+
+  context.clearRect(0, 0, width, height);
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.font = `760 ${fontSize}px Arial, "Microsoft YaHei", sans-serif`;
+
+  qiongqiCodeColumns.forEach((column, columnIndex) => {
+    column.y += column.direction * column.speed * delta;
+
+    const columnHeight = column.digits.length * digitGap;
+    if (column.direction > 0 && column.y > height + columnHeight) {
+      column.y = -height * 0.52 - columnHeight;
+    }
+    if (column.direction < 0 && column.y < -columnHeight) {
+      column.y = height + height * 0.36;
+    }
+
+    const x = column.x + Math.sin(time * 1.25 + column.phase) * column.sway;
+    column.digits.forEach((digit, digitIndex) => {
+      const blinkPeriod = 0.38 + ((digitIndex + columnIndex) % 5) * 0.09;
+      const blinkPhase = (time + digitIndex * 0.17 + columnIndex * 0.29) % blinkPeriod;
+      const isVisible = blinkPhase < blinkPeriod * 0.48 || blinkPhase > blinkPeriod * 0.86;
+      const y = column.y + digitIndex * digitGap;
+      if (!isVisible) return;
+
+      context.globalAlpha = 1;
+      context.shadowColor = "rgba(255, 226, 118, 0.82)";
+      context.shadowBlur = 18 * ratio;
+      context.fillStyle = "rgba(255, 248, 206, 0.94)";
+      context.fillText(digit, x, y);
+
+      context.globalAlpha = 0.48;
+      context.shadowColor = "rgba(105, 184, 255, 0.62)";
+      context.shadowBlur = 30 * ratio;
+      context.fillStyle = "rgba(143, 213, 255, 0.54)";
+      context.fillText(digit, x + 1.8 * ratio, y);
+    });
+  });
+
+  context.globalAlpha = 1;
+  context.shadowBlur = 0;
+  qiongqiCodeAnimationId = window.requestAnimationFrame(drawQiongqiCodeRain);
 }
 
 async function unlockPendingLaptop() {
@@ -1535,7 +1669,7 @@ function canOpenEvasiveApp(button) {
   if (!button.matches("[data-evade-app]")) return true;
 
   const attempts = Number(button.dataset.evadeCount || 0);
-  if (attempts >= 10) return true;
+  if (attempts >= qiongqiEvadeLimit) return true;
 
   evadeDockApp(button);
   return false;
@@ -1583,7 +1717,7 @@ function evadeDockApp(button, event = null) {
   if (nextCenterY < margin) nextY += margin - nextCenterY;
   if (nextCenterY > window.innerHeight - margin) nextY -= nextCenterY - (window.innerHeight - margin);
 
-  const attempts = Math.min(10, Number(button.dataset.evadeCount || 0) + 1);
+  const attempts = Math.min(qiongqiEvadeLimit, Number(button.dataset.evadeCount || 0) + 1);
   button.dataset.evadeCount = String(attempts);
   button.dataset.evadeX = String(Math.round(nextX));
   button.dataset.evadeY = String(Math.round(nextY));
@@ -1591,7 +1725,7 @@ function evadeDockApp(button, event = null) {
   button.style.setProperty("--evade-x", `${Math.round(nextX)}px`);
   button.style.setProperty("--evade-y", `${Math.round(nextY)}px`);
 
-  if (attempts >= 10) {
+  if (attempts >= qiongqiEvadeLimit) {
     button.dataset.evadeComplete = "true";
     button.setAttribute("aria-disabled", "false");
   }

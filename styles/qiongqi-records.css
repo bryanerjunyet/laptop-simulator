@@ -516,6 +516,59 @@ button {
     0 0 24px rgba(255, 238, 132, 0.54);
 }
 
+.connection-glitch {
+  position: relative;
+  color: #fff7c0;
+  animation:
+    signal-drop 1.35s steps(3, end) infinite,
+    qiongqi-glitch 0.72s steps(2, end) infinite;
+}
+
+.connection-glitch::before,
+.connection-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.connection-glitch::before {
+  color: #7ce7ff;
+  transform: translate(4px, -2px);
+  clip-path: inset(0 0 46% 0);
+  opacity: 0.72;
+}
+
+.connection-glitch::after {
+  color: #ff5ecb;
+  transform: translate(-5px, 2px);
+  clip-path: inset(48% 0 0 0);
+  opacity: 0.66;
+}
+
+.connection-glitch.stagger {
+  animation-delay: -0.36s, -0.18s;
+}
+
+.connection-glitch.unstable {
+  animation-duration: 0.95s, 0.38s;
+}
+
+.connection-glitch.severe {
+  color: #fff0a6;
+  text-shadow:
+    0 0 12px rgba(255, 238, 148, 0.9),
+    0 0 26px rgba(255, 92, 198, 0.48),
+    0 0 42px rgba(126, 226, 255, 0.35);
+  animation:
+    signal-drop 0.88s steps(2, end) infinite,
+    qiongqi-violent 0.22s steps(2, end) infinite;
+}
+
+.connection-glitch.violent {
+  animation-duration: 0.46s, 0.16s;
+}
+
 .threat-line {
   color: #fff2a8;
   font-size: clamp(30px, 4.4vw, 56px) !important;
@@ -523,7 +576,10 @@ button {
     0 0 12px rgba(255, 236, 143, 1),
     0 0 36px rgba(255, 98, 201, 0.72),
     0 0 60px rgba(125, 218, 255, 0.44) !important;
-  animation: threat-pulse 0.9s ease-in-out infinite alternate;
+  animation:
+    signal-drop 0.46s steps(2, end) infinite,
+    qiongqi-violent 0.16s steps(2, end) infinite,
+    threat-pulse 0.9s ease-in-out infinite alternate;
 }
 
 @keyframes spectral-shift {
@@ -657,6 +713,31 @@ button {
   75% {
     transform: translate(4px, 2px) skewX(-4deg);
     opacity: 0.35;
+  }
+}
+
+@keyframes signal-drop {
+  0%, 17%, 31%, 100% {
+    opacity: 1;
+    filter: brightness(1.12);
+  }
+
+  18%, 21% {
+    opacity: 0.12;
+    filter: brightness(0.45);
+  }
+
+  45%, 49% {
+    opacity: 0.36;
+    filter: brightness(0.72);
+  }
+
+  63%, 66% {
+    opacity: 0;
+  }
+
+  72%, 76% {
+    opacity: 0.55;
   }
 }
 

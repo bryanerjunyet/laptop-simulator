@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Preview</title>
+  <link rel="stylesheet" href="../styles/image-preview.css">
+</head>
+
+<body>
+  <main class="image-preview-app">
+    <header class="preview-toolbar">
+      <strong id="previewTitle">Image Preview</strong>
+      <div class="preview-actions">
+        <button id="zoomOut" type="button" aria-label="Zoom out">-</button>
+        <span id="zoomLabel">100%</span>
+        <button id="zoomIn" type="button" aria-label="Zoom in">+</button>
+        <button id="resetView" type="button">Reset</button>
+      </div>
+    </header>
+    <section class="preview-stage" id="previewStage">
+      <img id="previewImage" alt="">
+    </section>
+  </main>
+
+  <script src="../scripts/image-preview.js"></script>
+</body>
+
+</html>

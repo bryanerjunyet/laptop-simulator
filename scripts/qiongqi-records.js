@@ -70,7 +70,6 @@ function startLastRecord() {
 
     if (index >= lastRecord.length) {
       lastRecordShell.classList.add("is-complete");
-      prepareRepellableLastRecord();
       return;
     }
 
@@ -86,7 +85,7 @@ function prepareRepellableLastRecord() {
   const fragment = document.createDocumentFragment();
   lastRecordCharacters = [];
 
-  Array.from(lastRecord).forEach((character) => {
+  Array.from(lastRecordText.textContent || lastRecord).forEach((character) => {
     if (character === "\n") {
       fragment.appendChild(document.createTextNode("\n"));
       return;
@@ -107,6 +106,9 @@ function prepareRepellableLastRecord() {
 
 function repelLastRecordCharacters(event) {
   if (!lastRecordShell.classList.contains("is-complete")) return;
+  if (!lastRecordCharacters.length) {
+    prepareRepellableLastRecord();
+  }
 
   lastRecordCharacters.forEach((character) => {
     const rect = character.getBoundingClientRect();
